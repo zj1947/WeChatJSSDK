@@ -1,0 +1,41 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>webView测试</title>
+</head>
+<script src="bab.js"></script>
+<script>
+    function test(){
+        bab.chooseImage({
+         success:function(res){
+              console.log('BabJSBridge'+JSON.stringify(res))
+         }
+        });
+    }
+    function test2(){
+             bab.toast({
+             message:'toast test ',
+             success:function(result){
+                    console.log(result.errMsg)
+                }
+            });
+    }
+    function previewImage(){
+        bab.previewImage({
+            current: '\/mnt\/sdcard\/DCIM\/Camera\/IMG_20130919_140734.jpg',
+        urls: ["\/mnt\/sdcard\/DCIM\/Camera\/IMG_20130919_140701.jpg","\/mnt\/sdcard\/DCIM\/Camera\/IMG_20130919_140734.jpg","\/mnt\/sdcard\/DCIM\/Camera\/IMG_20130919_142538.jpg","\/mnt\/sdcard\/DCIM\/Camera\/IMG_20130919_143926.jpg","\/mnt\/sdcard\/DCIM\/Camera\/IMG_20130919_140806.jpg","\/mnt\/sdcard\/DCIM\/Camera\/2014-11-04 09.46.17.jpg","\/mnt\/sdcard\/DCIM\/Camera\/1415065573451.jpg","\/mnt\/sdcard\/DCIM\/Camera\/1416198096135.jpg","\/mnt\/sdcard\/DCIM\/Camera\/2014-11-17 12.21.48.jpg","\/mnt\/sdcard\/DCIM\/Camera\/1416198975563.jpg","\/mnt\/sdcard\/DCIM\/Camera\/2014-11-17 12.36.09.jpg","\/mnt\/sdcard\/DCIM\/Camera\/1416198966334.jpg","\/mnt\/sdcard\/DCIM\/Camera\/2014-11-17 12.36.42.jpg","\/mnt\/sdcard\/DCIM\/Camera\/1416205366979.jpg"] // 需要预览的图片链接列表
+        });
+    }
+</script>
+<body>
+<h1>Title h1</h1>
+<br/>
+<button onclick="test()">button</button>
+<br/>
+<input type="button" onclick="test2()" id="btn_promopt" value='btnPromopt'/>
+<br/>
+<button onclick="previewImage()">图片浏览</button>
+<br/>
+<!--<button onclick="test2()">btnPromopt</button>-->
+</body>
+</html>
