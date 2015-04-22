@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="handle_cancel_progress_dialog" type="id"/>
+    <item name="handle_success" type="id"/>
+    <item name="handle_fail" type="id"/>
+    <item name="handle_update" type="id"/>
+</resources>
