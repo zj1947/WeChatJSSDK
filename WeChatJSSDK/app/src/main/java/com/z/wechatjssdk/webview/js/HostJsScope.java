@@ -6,7 +6,7 @@
  * Copyright: Copyright (c) 2013
  */
 
-package com.z.wechatjssdk.webview;
+package com.z.wechatjssdk.webview.js;
 
 import android.webkit.WebView;
 

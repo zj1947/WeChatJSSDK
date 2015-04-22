@@ -5,13 +5,15 @@
  * Time: 下午2:31
  * Copyright: Copyright (c) 2013
  */
-package com.z.wechatjssdk.webview;
+package com.z.wechatjssdk.webview.fragment;
 
 import android.util.Log;
 import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+
+import com.z.wechatjssdk.webview.js.JsCallJava;
 
 
 public class InjectedChromeClient extends WebChromeClient {
@@ -53,7 +55,9 @@ public class InjectedChromeClient extends WebChromeClient {
 
     @Override
     public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
-        result.confirm(mJsCallJava.functionReturnCall(view, message));
+        String strPromptResult=mJsCallJava.functionReturnCall(view, message);
+        result.confirm(strPromptResult);
+        Log.d(TAG,strPromptResult);
         return true;
     }
 }

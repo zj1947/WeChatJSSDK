@@ -5,7 +5,7 @@
  * Time: 下午7:55
  * Copyright: Copyright (c) 2013
  */
-package com.z.wechatjssdk.webview;
+package com.z.wechatjssdk.webview.js;
 
 import android.util.Log;
 import android.webkit.WebView;

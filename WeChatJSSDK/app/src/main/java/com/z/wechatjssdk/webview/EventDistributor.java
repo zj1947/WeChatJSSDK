@@ -2,44 +2,28 @@ package com.z.wechatjssdk.webview;
 
 import android.webkit.WebView;
 
+import com.z.wechatjssdk.webview.bean.Request;
+
 import org.json.JSONObject;
 
 /**
  * Created by Administrator on 15-3-10.
  */
 public class EventDistributor {
-    private static final String ERR_MSG="errMsg";
 
-    private EventWatcher eventWatcher;
+    private RequestWatcher reqWatcher;
 
     public EventDistributor() {
     }
 
-    public void distributorReqAction(WebView webView,String interfaceNm, final JSONObject jo, int index){
+    public void distributorReqAction(WebView webView,String interfaceNm, final JSONObject jo, int index) throws WebException{
 
-         eventWatcher = (EventWatcher)webView.getTag();
+         reqWatcher = (RequestWatcher)webView.getTag();
 
-        if (null==eventWatcher){
-            eventWatcher.error("(EventWatcher)webView.getTag() is null");
-            return;
+        if (null== reqWatcher){
+            throw new WebException("webview need to bound EventWatcher");
         }
-
-        if (interfaceNm.equals(WebInterfaceContents.INTERFACE_NM_GET_LOCATION)){
-                eventWatcher.getLocation(jo);
-            }else if (interfaceNm.equals(WebInterfaceContents.INTERFACE_NM_PRE_IMG)){
-                eventWatcher.previewImage(jo);
-            }else if (interfaceNm.equals(WebInterfaceContents.INTERFACE_NM_UPLOAD_IMG)){
-                eventWatcher.uploadImage(jo);
-            }else if (interfaceNm.equals(WebInterfaceContents.INTERFACE_NM_CHOOSE_IMG)){
-                eventWatcher.chooseImage(jo);
-            }else if (interfaceNm.equals(WebInterfaceContents.INTERFACE_NM_GO_BACK)){
-                eventWatcher.goBack(jo);
-            }else if (interfaceNm.equals(WebInterfaceContents.INTERFACE_NM_ALERT)){
-                eventWatcher.alert(jo);
-            }else if (interfaceNm.equals(WebInterfaceContents.INTERFACE_NM_TOAST)){
-                  eventWatcher.toast(jo);
-            }else {
-            }
-
+        Request request=new Request(interfaceNm,jo);
+        reqWatcher.webReqEvent(request);
     }
 }

@@ -1,9 +1,8 @@
-package com.z.wechatjssdk.webview;
+package com.z.wechatjssdk.webview.fragment;
 
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.SslErrorHandler;
-import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -21,10 +19,14 @@ import android.widget.Toast;
 
 import com.z.wechatjssdk.R;
 import com.z.wechatjssdk.view.LoadingUiHelper;
+import com.z.wechatjssdk.webview.EventManager;
+import com.z.wechatjssdk.webview.RequestWatcher;
+import com.z.wechatjssdk.webview.bean.Request;
+import com.z.wechatjssdk.webview.js.HostJsScope;
+import com.z.wechatjssdk.webview.js.JsCallback;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -32,9 +34,9 @@ import java.util.HashMap;
  * A simple {@link android.support.v4.app.Fragment} subclass.
  */
 
-public class WebViewFragment extends Fragment implements EventWatcher{
+public class WebViewFragment extends Fragment implements IFragmentView,RequestWatcher {
 
-    private static final String TAG=WebViewFragment.class.getSimpleName();
+    private static final String TAG = WebViewFragment.class.getSimpleName();
 
     private static final String ARG_URL = "param1";
 
@@ -42,10 +44,8 @@ public class WebViewFragment extends Fragment implements EventWatcher{
 
     private WebView mWebView;
     private String strUrl;
-    private boolean isDismiss;
     private LoadingUiHelper mLoadingUiHelper;
-    private ValueCallback<Uri> mUploadMessage;
-    private HashMap<String, JSONObject> mWebReqList;
+    private EventManager eventManager;
 
     public static WebViewFragment newInstance(String url) {
         WebViewFragment fragment = new WebViewFragment();
@@ -116,7 +116,7 @@ public class WebViewFragment extends Fragment implements EventWatcher{
     public void onActivityResult(int requestCode, int resultCode,
                                  Intent data) {
 
-        if (getActivity().RESULT_OK!=resultCode)
+        if (getActivity().RESULT_OK != resultCode)
             return;
 
     }
@@ -136,10 +136,8 @@ public class WebViewFragment extends Fragment implements EventWatcher{
     @Override
     public void onDestroy() {
 
-        if (mUploadMessage != null) {
-            mWebView.destroy();
-            mWebView = null;
-        }
+        mWebView.destroy();
+        mWebView = null;
         super.onDestroy();
     }
 
@@ -160,7 +158,6 @@ public class WebViewFragment extends Fragment implements EventWatcher{
     private void initData() {
 
         mLoadingUiHelper = new LoadingUiHelper(mWebView.getContext(), null);
-        mWebReqList = new HashMap<>();
 
         //支持javascript
         mWebView.getSettings().setJavaScriptEnabled(true);
@@ -177,6 +174,9 @@ public class WebViewFragment extends Fragment implements EventWatcher{
         mWebView.getSettings().setLoadWithOverviewMode(true);
         mWebView.getSettings().setDomStorageEnabled(true);
 
+        JsCallback jsCallback = new JsCallback(mWebView, INJECTED_NAME);
+        eventManager = new EventManager(this,jsCallback);
+        //绑定事件处理类
         mWebView.setTag(this);
 
         mWebView.setWebChromeClient(new InjectedChromeClient(INJECTED_NAME, HostJsScope.class));
@@ -185,59 +185,18 @@ public class WebViewFragment extends Fragment implements EventWatcher{
     }
 
     public void loadUrl(String url) {
-
-        Log.d("TAG", url);
+        Log.d(TAG, url);
         mWebView.loadUrl(url);
     }
 
     @Override
-    public void getLocation(JSONObject jo) {
-
+    public void toast(String content) {
+        Toast.makeText(getActivity(), content, Toast.LENGTH_LONG).show();
     }
 
     @Override
-    public void previewImage(JSONObject jo) {
-
-    }
-
-    @Override
-    public void uploadImage(JSONObject jo) {
-
-    }
-
-    @Override
-    public void chooseImage(JSONObject jo) {
-
-    }
-
-    @Override
-    public void goBack(JSONObject jo) {
-
-    }
-
-    @Override
-    public void alert(JSONObject jo) {
-
-    }
-
-    @Override
-    public void toast(JSONObject jo) {
-        Toast.makeText(getActivity(),jo.toString(),Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void jump(JSONObject jo) {
-
-    }
-
-    @Override
-    public void selectTime(JSONObject jo) {
-
-    }
-
-    @Override
-    public void error(String errorMsg) {
-
+    public void webReqEvent(Request request) {
+        eventManager.processEvent(request);
     }
 
     class InfoDetailWebViewClient extends WebViewClient {
@@ -272,8 +231,6 @@ public class WebViewFragment extends Fragment implements EventWatcher{
             super.onPageFinished(webView, url);
         }
     }
-
-
 
 
 }

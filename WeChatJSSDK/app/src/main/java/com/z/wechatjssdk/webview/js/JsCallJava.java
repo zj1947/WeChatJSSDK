@@ -1,8 +1,10 @@
-package com.z.wechatjssdk.webview;
+package com.z.wechatjssdk.webview.js;
 
 import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.WebView;
+
+import com.z.wechatjssdk.webview.EventDistributor;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

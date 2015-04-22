@@ -3,10 +3,8 @@ package com.z.wechatjssdk;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
-import com.z.wechatjssdk.webview.WebViewFragment;
+import com.z.wechatjssdk.webview.fragment.WebViewFragment;
 
 
 public class MainActivity extends ActionBarActivity {
