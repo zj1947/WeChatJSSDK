@@ -21,6 +21,7 @@ import com.z.wechatjssdk.R;
 import com.z.wechatjssdk.view.LoadingUiHelper;
 import com.z.wechatjssdk.webview.EventManager;
 import com.z.wechatjssdk.webview.RequestWatcher;
+import com.z.wechatjssdk.webview.WebInterfaceContents;
 import com.z.wechatjssdk.webview.bean.Request;
 import com.z.wechatjssdk.webview.js.HostJsScope;
 import com.z.wechatjssdk.webview.js.JsCallback;
@@ -39,8 +40,6 @@ public class WebViewFragment extends Fragment implements IFragmentView,RequestWa
     private static final String TAG = WebViewFragment.class.getSimpleName();
 
     private static final String ARG_URL = "param1";
-
-    private static final String INJECTED_NAME = "BabJSBridge";
 
     private WebView mWebView;
     private String strUrl;
@@ -174,12 +173,12 @@ public class WebViewFragment extends Fragment implements IFragmentView,RequestWa
         mWebView.getSettings().setLoadWithOverviewMode(true);
         mWebView.getSettings().setDomStorageEnabled(true);
 
-        JsCallback jsCallback = new JsCallback(mWebView, INJECTED_NAME);
+        JsCallback jsCallback = new JsCallback(mWebView, WebInterfaceContents.INJECTED_NAME);
         eventManager = new EventManager(this,jsCallback);
         //绑定事件处理类
         mWebView.setTag(this);
 
-        mWebView.setWebChromeClient(new InjectedChromeClient(INJECTED_NAME, HostJsScope.class));
+        mWebView.setWebChromeClient(new InjectedChromeClient(WebInterfaceContents.INJECTED_NAME, HostJsScope.class));
         mWebView.setWebViewClient(new InfoDetailWebViewClient());
 
     }

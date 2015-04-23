@@ -32,7 +32,7 @@ var wx={
 };
 
 function websiteReq(interfaceNm,parameter,a){
-     BabJSBridge.websiteReq(interfaceNm,parameter,function(result){clientReturn(interfaceNm,result,a);})
+     WxJSBridge.websiteReq(interfaceNm,parameter,function(result){clientReturn(interfaceNm,result,a);})
 }
 function clientReturn(interfaceNm,result,a){
    var jo=toJson(result);
