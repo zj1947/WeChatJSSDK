@@ -1,6 +1,6 @@
 
 
-var bab={
+var wx={
         getLocation:function(a){
             websiteReq('getLocation',
                             ParseObject(a),
