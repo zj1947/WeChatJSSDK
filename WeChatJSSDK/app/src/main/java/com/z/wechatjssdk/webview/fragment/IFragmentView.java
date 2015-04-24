@@ -8,4 +8,5 @@ import org.json.JSONObject;
 public interface IFragmentView {
 
     public void toast(String content);
+    public void chooseImg();
 }

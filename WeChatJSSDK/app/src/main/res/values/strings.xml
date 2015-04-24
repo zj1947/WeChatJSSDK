@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">WeChatJSSDK</string>
 
+    <string name="title_activity_img_selector_file">图片浏览</string>
+    <string name="title_activity_img_selector_photo_gallery">选择图片</string>
+
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="no_net_layout_text">没有网络连接</string>
 </resources>

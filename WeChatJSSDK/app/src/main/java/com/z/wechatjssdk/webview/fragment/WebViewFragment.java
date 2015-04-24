@@ -18,6 +18,7 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.z.wechatjssdk.R;
+import com.z.wechatjssdk.ui.img_selector.ImgFileListActivity;
 import com.z.wechatjssdk.view.LoadingUiHelper;
 import com.z.wechatjssdk.webview.EventManager;
 import com.z.wechatjssdk.webview.RequestWatcher;
@@ -28,6 +29,7 @@ import com.z.wechatjssdk.webview.js.JsCallback;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -118,6 +120,20 @@ public class WebViewFragment extends Fragment implements IFragmentView,RequestWa
         if (getActivity().RESULT_OK != resultCode)
             return;
 
+        Bundle bundle = null;
+        if (data != null) {
+            bundle = data.getExtras();
+        }
+        //多图选择返回不为空
+        ArrayList<String> fileList = bundle.getStringArrayList("files");
+
+        Log.d(TAG,"onActivityResult img list:"+fileList.toString());
+
+//        selectedImgs = bundle.getStringArrayList("files");
+//        ChooseImgsServiceImp imgsServiceImp=new ChooseImgsServiceImp("chooseImage",mWebReqList.get("chooseImage"));
+//        imgsServiceImp.setChooseImgs(selectedImgs);
+//        JsCallback jsCallback = new JsCallback(mWebView, INJECTED_NAME);
+//        imgsServiceImp.callBack(jsCallback);
     }
 
     /**
@@ -194,7 +210,19 @@ public class WebViewFragment extends Fragment implements IFragmentView,RequestWa
     }
 
     @Override
+    public void chooseImg() {
+        startActivityForResult(new Intent(getActivity(), ImgFileListActivity.class), 1);
+    }
+
+    @Override
     public void webReqEvent(Request request) {
+
+        String strInterfaceNm=request.getInterfaceNm();
+        if (WebInterfaceContents.INTERFACE_NM_CHOOSE_IMG.equals(strInterfaceNm)){
+            chooseImg();
+            return;
+        }
+
         eventManager.processEvent(request);
     }
 

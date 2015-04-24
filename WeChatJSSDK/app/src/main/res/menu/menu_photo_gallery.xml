@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.zsbab.ui.img_selector.ImgsActivity" >
+    <item android:id="@+id/action_confirm"
+        android:title="确定"
+        android:orderInCategory="100"
+        app:showAsAction="always" />
+</menu>
