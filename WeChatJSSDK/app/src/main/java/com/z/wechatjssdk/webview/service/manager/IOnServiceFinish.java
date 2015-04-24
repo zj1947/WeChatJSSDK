@@ -1,4 +1,4 @@
-package com.z.wechatjssdk.webview.service;
+package com.z.wechatjssdk.webview.service.manager;
 
 import com.z.wechatjssdk.webview.bean.Response;
 

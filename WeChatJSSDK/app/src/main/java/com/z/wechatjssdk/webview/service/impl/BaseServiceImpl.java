@@ -1,26 +1,54 @@
 package com.z.wechatjssdk.webview.service.impl;
 
+import com.z.wechatjssdk.webview.WebInterfaceContents;
 import com.z.wechatjssdk.webview.bean.Request;
 import com.z.wechatjssdk.webview.bean.Response;
-import com.z.wechatjssdk.webview.dao.DaoFactory;
-import com.z.wechatjssdk.webview.dao.IDao;
-import com.z.wechatjssdk.webview.service.IEventService;
-import com.z.wechatjssdk.webview.service.IOnServiceFinish;
+import com.z.wechatjssdk.webview.service.IService;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
  * Created by Administrator on 15-4-23.
  */
-public class BaseServiceImpl implements IEventService {
-    @Override
-    public void getResponse(Request request, IOnServiceFinish listener) {
+abstract class BaseServiceImpl<T>implements IService {
 
-        String interfaceNm=request.getInterfaceNm();
+    protected JSONObject mJoResult;
+    protected String mInterfaceNm;
+    protected Response response;
 
-        IDao dao= DaoFactory.produceDao(interfaceNm);
-        Response response=dao.getResponseJSON(request);
-
-        listener.onServiceFinish(response);
+    public BaseServiceImpl() {
+        mJoResult=new JSONObject();
     }
+
+    @Override
+    public Response getResponseJSON(Request request) {
+
+        mInterfaceNm=request.getInterfaceNm();
+        response=new Response<T>(mInterfaceNm,mJoResult);
+
+        try {
+
+            parserReqJSON(request.getRequestJSON());
+            setResultJSON();
+
+        }catch (JSONException j){
+            j.printStackTrace();
+
+            try {
+                mJoResult.put(WebInterfaceContents.ERR_MSG, j.getMessage());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return response;
+    }
+
+    protected void setOkResult()throws JSONException{
+        mJoResult.put(WebInterfaceContents.ERR_MSG, mInterfaceNm+":ok");
+    }
+
+    public abstract void setResultJSON() throws JSONException;
+    public abstract void parserReqJSON(JSONObject jsonObject) throws JSONException;
 }
