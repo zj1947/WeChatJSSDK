@@ -6,12 +6,14 @@ import org.json.JSONObject;
  * Created by Administrator on 15-4-22.
  */
 public class Request {
+    private int queueIndex;
     private String interfaceNm;
     private JSONObject requestJSON;
 
-    public Request(String interfaceNm, JSONObject requestJSON) {
+    public Request(String interfaceNm, JSONObject requestJSON,int queueIndex) {
         this.interfaceNm = interfaceNm;
         this.requestJSON = requestJSON;
+        this.queueIndex=queueIndex;
     }
 
     public String getInterfaceNm() {
@@ -28,5 +30,13 @@ public class Request {
 
     public void setRequestJSON(JSONObject requestJSON) {
         this.requestJSON = requestJSON;
+    }
+
+    public int getQueueIndex() {
+        return queueIndex;
+    }
+
+    public void setQueueIndex(int queueIndex) {
+        this.queueIndex = queueIndex;
     }
 }

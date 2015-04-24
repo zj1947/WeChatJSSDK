@@ -16,8 +16,8 @@ public class ServiceManagerImpl implements IServiceManager {
 
         String interfaceNm=request.getInterfaceNm();
 
-        IService dao= ServiceFactory.produceService(interfaceNm);
-        Response response=dao.getResponseJSON(request);
+        IService service= ServiceFactory.produceService(interfaceNm);
+        Response response=service.getResponseJSON(request);
 
         listener.onServiceFinish(response);
     }

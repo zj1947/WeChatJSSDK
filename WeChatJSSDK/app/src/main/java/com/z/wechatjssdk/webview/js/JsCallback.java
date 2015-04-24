@@ -27,13 +27,6 @@ public class JsCallback {
         mIndex = index;
     }
 
-    public JsCallback(WebView view, String injectedName) {
-        mCouldGoOn = true;
-        mWebViewRef = new WeakReference<WebView>(view);
-        mInjectedName = injectedName;
-        mIndex = 0;
-    }
-
     public void apply(Object... args) throws JsCallbackException {
         if (mWebViewRef.get() == null) {
             throw new JsCallbackException("the WebView related to the JsCallback has been recycled");

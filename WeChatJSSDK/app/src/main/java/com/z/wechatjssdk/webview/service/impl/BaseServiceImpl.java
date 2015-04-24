@@ -24,8 +24,9 @@ abstract class BaseServiceImpl<T>implements IService {
     @Override
     public Response getResponseJSON(Request request) {
 
+        int queueIndex=request.getQueueIndex();
         mInterfaceNm=request.getInterfaceNm();
-        response=new Response<T>(mInterfaceNm,mJoResult);
+        response=new Response<T>(mInterfaceNm,mJoResult,queueIndex);
 
         try {
 

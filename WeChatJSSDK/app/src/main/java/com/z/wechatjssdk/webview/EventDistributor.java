@@ -23,7 +23,7 @@ public class EventDistributor {
         if (null== reqWatcher){
             throw new WebException("webview need to bound EventWatcher");
         }
-        Request request=new Request(interfaceNm,jo);
+        Request request=new Request(interfaceNm,jo,index);
         reqWatcher.webReqEvent(request);
     }
 }

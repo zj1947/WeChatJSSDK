@@ -4,6 +4,7 @@ package com.z.wechatjssdk.webview;
  * Created by Administrator on 15-4-1.
  */
 public class WebInterfaceContents {
+
     public static final String ERR_MSG="errMsg";
     public static final String INJECTED_NAME = "WxJSBridge";
     public static final String INTERFACE_NM_GET_LOCATION="getLocation";
@@ -14,4 +15,5 @@ public class WebInterfaceContents {
     public static final String INTERFACE_NM_ALERT="alert";
     public static final String INTERFACE_NM_TOAST="toast";
     public static final String INTERFACE_NM_GET_NETWORK_TYPE="getNetWorkType";
+
 }

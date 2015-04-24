@@ -7,13 +7,23 @@ import org.json.JSONObject;
  */
 public class Response<T>{
 
+    private int queueIndex;
     private String interfaceNm;
     private JSONObject responseJSON;
     private T t;
 
-    public Response(String interfaceNm, JSONObject responseJSON) {
+    public Response(String interfaceNm, JSONObject responseJSON,int queueIndex) {
         this.interfaceNm = interfaceNm;
         this.responseJSON = responseJSON;
+        this.queueIndex=queueIndex;
+    }
+
+    public int getQueueIndex() {
+        return queueIndex;
+    }
+
+    public void setQueueIndex(int queueIndex) {
+        this.queueIndex = queueIndex;
     }
 
     public String getInterfaceNm() {

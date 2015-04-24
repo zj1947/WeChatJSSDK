@@ -40,8 +40,11 @@ public class EventManager implements IPresenter,IOnServiceFinish {
     @Override
     public void onServiceFinish(Response response) {
 
-        final JsCallback jsCallBack=new JsCallback(webView, WebInterfaceContents.INJECTED_NAME);;
-        jsCallBack.setPermanent(true);
+        final JsCallback jsCallBack=new JsCallback(
+                webView,
+                WebInterfaceContents.INJECTED_NAME,
+                response.getQueueIndex());;
+//        jsCallBack.setPermanent(true);
         String interfaceNm=response.getInterfaceNm();
         if (reqQueue.containsKey(interfaceNm)){
             reqQueue.remove(interfaceNm);

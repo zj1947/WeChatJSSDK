@@ -1,11 +1,8 @@
-
-
-    function websiteReq(interfaceNm,parameter,a){
+  function websiteReq(interfaceNm,parameter,a){
         console.log("JSBridge clientReturn interfaceNm:"+interfaceNm);
          WxJSBridge.websiteReq(interfaceNm,parameter,function(result){clientReturn(interfaceNm,result,a);})
-
     }
-    function clientReturn(interfaceNm,result,a){
+  function clientReturn(interfaceNm,result,a){
        var jo=toJson(result);
         console.log("JSBridge clientReturn:"+JSON.stringify(jo));
         console.log("JSBridge clientReturn interfaceNm:"+interfaceNm);
@@ -20,20 +17,19 @@
             default:a.fail&&a.fail(jo)
         };
     }
-
-    function toJson(obj){
+  function toJson(obj){
         if(typeof(obj)=='string'){
             return JSON.parse( obj );
         }else{
             return obj;
         }
     }
-    function ParseObject(obj){
+  function ParseObject(obj){
             var strJson=Serialize(obj);
             console.log("JSBridge ParseObject:"+strJson);
           return toJson(strJson);
     }
-    function Serialize(obj) {
+  function Serialize(obj) {
         switch (obj.constructor) {
         case Object:
             var str = "{";
@@ -70,8 +66,7 @@
             break
         }
     }
-
-    function empty(v){
+  function empty(v){
     switch (typeof v){
         case 'undefined' : return true;
         case 'string' : if(trim(v).length == 0) return true; break;
@@ -85,7 +80,7 @@
     }
     return false;
 }
-    var wx={
+  var wx={
         getLocation:function(a){
             websiteReq('getLocation',
                             ParseObject(a),
