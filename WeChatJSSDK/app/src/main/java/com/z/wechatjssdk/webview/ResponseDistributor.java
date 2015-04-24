@@ -15,9 +15,13 @@ public class ResponseDistributor implements IResponseDistributor{
 
     @Override
     public void distributeResponse(Response response) {
+
         String interfaceNm=response.getInterfaceNm();
-        String requestContent=response.getResponseJSON().toString();
-        iFragmentView.toast(interfaceNm+":"+requestContent);
+
+        if (interfaceNm.equals(WebInterfaceContents.INTERFACE_NM_TOAST)){
+            String msg=(String)response.getT();
+            iFragmentView.toast(msg);
+        }
     }
 
 }

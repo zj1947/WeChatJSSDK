@@ -5,10 +5,11 @@ import org.json.JSONObject;
 /**
  * Created by Administrator on 15-4-22.
  */
-public class Response {
+public class Response<T>{
 
     private String interfaceNm;
     private JSONObject responseJSON;
+    private T t;
 
     public Response(String interfaceNm, JSONObject responseJSON) {
         this.interfaceNm = interfaceNm;
@@ -29,5 +30,13 @@ public class Response {
 
     public void setResponseJSON(JSONObject responseJSON) {
         this.responseJSON = responseJSON;
+    }
+
+    public T getT() {
+        return t;
+    }
+
+    public void setT(T t) {
+        this.t = t;
     }
 }

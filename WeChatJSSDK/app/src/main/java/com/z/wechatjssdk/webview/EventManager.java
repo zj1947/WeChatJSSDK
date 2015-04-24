@@ -1,12 +1,14 @@
 package com.z.wechatjssdk.webview;
 
+import android.webkit.WebView;
+
 import com.z.wechatjssdk.webview.bean.Request;
 import com.z.wechatjssdk.webview.bean.Response;
 import com.z.wechatjssdk.webview.fragment.IFragmentView;
 import com.z.wechatjssdk.webview.js.JsCallback;
-import com.z.wechatjssdk.webview.service.IEventService;
-import com.z.wechatjssdk.webview.service.IOnServiceFinish;
-import com.z.wechatjssdk.webview.service.ServiceFactory;
+import com.z.wechatjssdk.webview.service.manager.IServiceManager;
+import com.z.wechatjssdk.webview.service.manager.IOnServiceFinish;
+import com.z.wechatjssdk.webview.service.manager.impl.ServiceManagerImpl;
 
 import org.json.JSONObject;
 
@@ -19,25 +21,27 @@ public class EventManager implements IPresenter,IOnServiceFinish {
 
     private IResponseDistributor iResponseDistributor;
     private HashMap<String,JSONObject> reqQueue;
-    private JsCallback jsCallBack;
-
-    public EventManager(IFragmentView iFragmentView,JsCallback jsCallBack) {
-       iResponseDistributor=new ResponseDistributor(iFragmentView);
+    private WebView webView;
+    public EventManager(IFragmentView iFragmentView,WebView webView) {
         reqQueue=new HashMap<>();
-        this.jsCallBack=jsCallBack;
+
+       iResponseDistributor=new ResponseDistributor(iFragmentView);
+        this.webView=webView;
     }
 
 
     @Override
     public void processEvent(Request request) {
         reqQueue.put(request.getInterfaceNm(),null);
-        IEventService eventService= ServiceFactory.productService(request.getInterfaceNm());
+        IServiceManager eventService= new ServiceManagerImpl();
         eventService.getResponse(request,this);
     }
 
     @Override
     public void onServiceFinish(Response response) {
 
+        final JsCallback jsCallBack=new JsCallback(webView, WebInterfaceContents.INJECTED_NAME);;
+        jsCallBack.setPermanent(true);
         String interfaceNm=response.getInterfaceNm();
         if (reqQueue.containsKey(interfaceNm)){
             reqQueue.remove(interfaceNm);

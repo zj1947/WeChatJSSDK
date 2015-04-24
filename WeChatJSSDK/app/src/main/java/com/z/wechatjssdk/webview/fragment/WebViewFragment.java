@@ -143,8 +143,9 @@ public class WebViewFragment extends Fragment implements IFragmentView,RequestWa
 
     @Override
     public void onDetach() {
-
-        mWebView.loadUrl("about:blank");
+        if(null!=mWebView){
+            mWebView.loadUrl("about:blank");
+        }
         mLoadingUiHelper.dismissDialog();
         mLoadingUiHelper = null;
         super.onDetach();
@@ -173,8 +174,7 @@ public class WebViewFragment extends Fragment implements IFragmentView,RequestWa
         mWebView.getSettings().setLoadWithOverviewMode(true);
         mWebView.getSettings().setDomStorageEnabled(true);
 
-        JsCallback jsCallback = new JsCallback(mWebView, WebInterfaceContents.INJECTED_NAME);
-        eventManager = new EventManager(this,jsCallback);
+        eventManager = new EventManager(this,mWebView);
         //绑定事件处理类
         mWebView.setTag(this);
 
