@@ -1,9 +1,10 @@
-package com.z.wechatjssdk;
+package com.z.wechatjssdk.ui;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 
+import com.z.wechatjssdk.R;
 import com.z.wechatjssdk.webview.fragment.WebViewFragment;
 
 
