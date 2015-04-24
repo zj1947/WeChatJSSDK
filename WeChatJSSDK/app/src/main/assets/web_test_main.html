@@ -7,17 +7,30 @@
 <script>
     function test(){
         wx.chooseImage({
-         success:function(res){
-              console.log('BabJSBridge'+JSON.stringify(res))
-         }
+             success:function(res){
+                    alert(res.message)
+             }
         });
     }
-    function test2(){
+    function toast(){
              wx.toast({
              message:'toast test ',
              success:function(result){
-                    console.log(result.errMsg)
+                console.log('toast success:'+result.errMsg)
+                },
+             fail:function(result){
+                console.log('toast fail:'+result.errMsg)
                 }
+            });
+    }
+    function getNetworkType(){
+            wx.getNetworkType({
+                success:function(result){
+                    console.log('getNetworkType success:'+result.errMsg)
+                },
+                fail:function(result){
+                    console.log('getNetworkType fail:'+result.errMsg)
+                    }
             });
     }
     function previewImage(){
@@ -32,7 +45,9 @@
 <br/>
 <button onclick="test()">button</button>
 <br/>
-<input type="button" onclick="test2()" id="btn_promopt" value='btnPromopt'/>
+<input type="button" onclick="toast()" id="btn_promopt" value='btnPromopt'/>
+<br/>
+<input type="button" onclick="getNetworkType()"  value='获取网络状态'/>
 <br/>
 <button onclick="previewImage()">图片浏览</button>
 <br/>
