@@ -11,6 +11,7 @@ import com.z.wechatjssdk.R;
 
 /**
  * Created by Administrator on 14-8-13.
+ * 进度对话框工具，创建、展示、取消进度对话框
  */
 public class LoadingUiHelper {
 
@@ -36,10 +37,7 @@ public class LoadingUiHelper {
     }
 
     public boolean isDialogShowing(){
-        if (null!=dialog){
-            return dialog.isShowing();
-        }
-        return false;
+        return null!=dialog&&dialog.isShowing();
     }
 
     public void  setCancelable(boolean cancelable){
