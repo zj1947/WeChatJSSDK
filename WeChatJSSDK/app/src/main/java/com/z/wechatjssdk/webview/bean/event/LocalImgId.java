@@ -1,4 +1,4 @@
-package com.z.wechatjssdk.webview.bean;
+package com.z.wechatjssdk.webview.bean.event;
 
 import java.util.ArrayList;
 
