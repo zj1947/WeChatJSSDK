@@ -19,18 +19,19 @@ import android.widget.Toast;
 
 import com.z.wechatjssdk.R;
 import com.z.wechatjssdk.ui.img_selector.ImgFileListActivity;
+import com.z.wechatjssdk.ui.img_selector.ImgsActivity;
 import com.z.wechatjssdk.view.LoadingUiHelper;
 import com.z.wechatjssdk.webview.EventManager;
 import com.z.wechatjssdk.webview.RequestWatcher;
 import com.z.wechatjssdk.webview.WebInterfaceContents;
+import com.z.wechatjssdk.webview.bean.LocalImgId;
 import com.z.wechatjssdk.webview.bean.Request;
+import com.z.wechatjssdk.webview.bean.Response;
 import com.z.wechatjssdk.webview.js.HostJsScope;
-import com.z.wechatjssdk.webview.js.JsCallback;
-
-import org.json.JSONObject;
+import com.z.wechatjssdk.webview.service.IService;
+import com.z.wechatjssdk.webview.service.impl.ChooseImageServiceImpl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 /**
@@ -42,6 +43,7 @@ public class WebViewFragment extends Fragment implements IFragmentView,RequestWa
     private static final String TAG = WebViewFragment.class.getSimpleName();
 
     private static final String ARG_URL = "param1";
+    private static final int BASE_REQ_CODE_CHOOSE_IMG=100;
 
     private WebView mWebView;
     private String strUrl;
@@ -64,7 +66,6 @@ public class WebViewFragment extends Fragment implements IFragmentView,RequestWa
         if (null != getArguments()) {
             strUrl = getArguments().getString(ARG_URL);
         }
-
 
         if (null != savedInstanceState) {
             strUrl = savedInstanceState.getString("strUrl");
@@ -117,23 +118,10 @@ public class WebViewFragment extends Fragment implements IFragmentView,RequestWa
     public void onActivityResult(int requestCode, int resultCode,
                                  Intent data) {
 
-        if (getActivity().RESULT_OK != resultCode)
+        if (requestCode<BASE_REQ_CODE_CHOOSE_IMG)
             return;
+        processChooseImgResult(requestCode,resultCode,data);
 
-        Bundle bundle = null;
-        if (data != null) {
-            bundle = data.getExtras();
-        }
-        //多图选择返回不为空
-        ArrayList<String> fileList = bundle.getStringArrayList("files");
-
-        Log.d(TAG,"onActivityResult img list:"+fileList.toString());
-
-//        selectedImgs = bundle.getStringArrayList("files");
-//        ChooseImgsServiceImp imgsServiceImp=new ChooseImgsServiceImp("chooseImage",mWebReqList.get("chooseImage"));
-//        imgsServiceImp.setChooseImgs(selectedImgs);
-//        JsCallback jsCallback = new JsCallback(mWebView, INJECTED_NAME);
-//        imgsServiceImp.callBack(jsCallback);
     }
 
     /**
@@ -167,10 +155,21 @@ public class WebViewFragment extends Fragment implements IFragmentView,RequestWa
         super.onDetach();
     }
 
+    @Override
+    public void webReqEvent(Request request) {
+
+        String strInterfaceNm=request.getInterfaceNm();
+        if (WebInterfaceContents.INTERFACE_NM_CHOOSE_IMG.equals(strInterfaceNm)){
+            chooseImg(request.getQueueIndex());
+            return;
+        }
+
+        eventManager.processEvent(request);
+    }
+
     private void initView(View rootView) {
         mWebView = (WebView) rootView.findViewById(R.id.wbv_page);
     }
-
     private void initData() {
 
         mLoadingUiHelper = new LoadingUiHelper(mWebView.getContext(), null);
@@ -209,22 +208,37 @@ public class WebViewFragment extends Fragment implements IFragmentView,RequestWa
         Toast.makeText(getActivity(), content, Toast.LENGTH_LONG).show();
     }
 
-    @Override
-    public void chooseImg() {
-        startActivityForResult(new Intent(getActivity(), ImgFileListActivity.class), 1);
+    private void chooseImg(int queueIndex) {
+        startActivityForResult(new Intent(getActivity(), ImgFileListActivity.class), queueIndex + BASE_REQ_CODE_CHOOSE_IMG);
     }
 
-    @Override
-    public void webReqEvent(Request request) {
+    private void processChooseImgResult(int requestCode, int resultCode,Intent data){
 
-        String strInterfaceNm=request.getInterfaceNm();
-        if (WebInterfaceContents.INTERFACE_NM_CHOOSE_IMG.equals(strInterfaceNm)){
-            chooseImg();
-            return;
+        int queueIndex=requestCode-BASE_REQ_CODE_CHOOSE_IMG;
+        Request<LocalImgId> request=new Request(WebInterfaceContents.INTERFACE_NM_CHOOSE_IMG,null,queueIndex);
+        LocalImgId localImgId=new LocalImgId();
+        request.setT(localImgId);
+
+        if (getActivity().RESULT_OK == resultCode){
+
+            Bundle bundle = null;
+            if (data != null) {
+                bundle = data.getExtras();
+            }
+            //多图选择返回不为空
+            ArrayList<String> fileList = bundle.getStringArrayList(ImgsActivity.INTENT_TAG_FILES);
+            localImgId.setLocalIds(fileList);
         }
 
-        eventManager.processEvent(request);
+
+        IService chooseServiceImpl=new ChooseImageServiceImpl();
+        Response response=chooseServiceImpl.getResponseJSON(request);
+
+        eventManager.addQueue(WebInterfaceContents.INTERFACE_NM_CHOOSE_IMG);
+        eventManager.onServiceFinish(response);
+
     }
+
 
     class InfoDetailWebViewClient extends WebViewClient {
         @Override
