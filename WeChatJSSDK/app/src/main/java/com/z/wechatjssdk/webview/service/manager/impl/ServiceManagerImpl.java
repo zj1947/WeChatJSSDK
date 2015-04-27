@@ -36,7 +36,8 @@ public class ServiceManagerImpl implements IServiceManager {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        listener.onServiceFinish(response);
+                        if (null!=listener)
+                            listener.onServiceFinish(response);
                     }
                 });
             }
