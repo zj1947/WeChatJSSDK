@@ -24,7 +24,7 @@ import com.z.wechatjssdk.view.LoadingUiHelper;
 import com.z.wechatjssdk.webview.EventManager;
 import com.z.wechatjssdk.webview.RequestWatcher;
 import com.z.wechatjssdk.webview.WebInterfaceContents;
-import com.z.wechatjssdk.webview.bean.LocalImgId;
+import com.z.wechatjssdk.webview.bean.event.LocalImgId;
 import com.z.wechatjssdk.webview.bean.Request;
 import com.z.wechatjssdk.webview.bean.Response;
 import com.z.wechatjssdk.webview.js.HostJsScope;

@@ -1,6 +1,6 @@
 package com.z.wechatjssdk.webview.service.impl;
 
-import com.z.wechatjssdk.webview.bean.LocalImgId;
+import com.z.wechatjssdk.webview.bean.event.LocalImgId;
 
 import org.json.JSONArray;
 import org.json.JSONException;

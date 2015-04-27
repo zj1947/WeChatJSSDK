@@ -30,6 +30,13 @@
                 }
             });
     }
+    function getLocation(){
+            wx.getLocation({
+                success:function(res){
+                    console.log('getLocation\n latitude:'+res.latitude+' longitude:'+res.longitude+' speed:'+res.speed+'  accuracy:'+res.accuracy)
+                }
+            });
+    }
     function previewImage(){
         wx.previewImage({
             current: '\/mnt\/sdcard\/DCIM\/Camera\/IMG_20130919_140734.jpg',
@@ -46,7 +53,7 @@
 <br/>
 <input type="button" onclick="getNetworkType()"  value='获取网络状态'/>
 <br/>
-<button onclick="previewImage()">图片浏览</button>
+<button onclick="getLocation()">获取位置</button>
 <br/>
 <!--<button onclick="test2()">btnPromopt</button>-->
 </body>

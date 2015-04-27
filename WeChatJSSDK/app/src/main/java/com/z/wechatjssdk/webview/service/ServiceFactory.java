@@ -1,6 +1,7 @@
 package com.z.wechatjssdk.webview.service;
 
 import com.z.wechatjssdk.webview.WebInterfaceContents;
+import com.z.wechatjssdk.webview.service.impl.GetLocationServiceImpl;
 import com.z.wechatjssdk.webview.service.impl.GetNetworkTypeServiceImpl;
 import com.z.wechatjssdk.webview.service.impl.ToastServiceImpl;
 
@@ -12,7 +13,7 @@ public class ServiceFactory {
     public static IService produceService(String interfaceNm){
 
         if (interfaceNm.equals(WebInterfaceContents.INTERFACE_NM_GET_LOCATION)) {
-
+            return new GetLocationServiceImpl();
         } else if (interfaceNm.equals(WebInterfaceContents.INTERFACE_NM_PRE_IMG)) {
 
         } else if (interfaceNm.equals(WebInterfaceContents.INTERFACE_NM_UPLOAD_IMG)) {
