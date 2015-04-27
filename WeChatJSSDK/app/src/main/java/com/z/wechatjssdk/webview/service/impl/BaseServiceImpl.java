@@ -16,6 +16,7 @@ abstract class BaseServiceImpl<T>implements IService {
     protected JSONObject mJoResult;
     protected String mInterfaceNm;
     protected Response response;
+    protected Request request;
 
     public BaseServiceImpl() {
         mJoResult=new JSONObject();
@@ -24,6 +25,7 @@ abstract class BaseServiceImpl<T>implements IService {
     @Override
     public Response getResponseJSON(Request request) {
 
+        this.request=request;
         int queueIndex=request.getQueueIndex();
         mInterfaceNm=request.getInterfaceNm();
         response=new Response<T>(mInterfaceNm,mJoResult,queueIndex);
@@ -50,6 +52,6 @@ abstract class BaseServiceImpl<T>implements IService {
         mJoResult.put(WebInterfaceContents.ERR_MSG, mInterfaceNm+":ok");
     }
 
-    public abstract void setResultJSON() throws JSONException;
     public abstract void parserReqJSON(JSONObject jsonObject) throws JSONException;
+    public abstract void setResultJSON() throws JSONException;
 }
