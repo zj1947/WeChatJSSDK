@@ -5,16 +5,16 @@
 </head>
 <script src="jssdk.js"></script>
 <script>
-    function test(){
+    function chooseImage(){
         wx.chooseImage({
              success:function(res){
-                    alert(res.message)
+             console.log(res.localIds)
              }
         });
     }
-    function toast(){
+    function toast(msg){
              wx.toast({
-             message:'toast test ',
+             message:msg,
              success:function(result){
                 console.log('toast success:'+result.errMsg)
                 },
@@ -26,11 +26,8 @@
     function getNetworkType(){
             wx.getNetworkType({
                 success:function(result){
-                    console.log('getNetworkType success:'+result.errMsg)
-                },
-                fail:function(result){
-                    console.log('getNetworkType fail:'+result.errMsg)
-                    }
+                    toast('getNetworkType :'+result.networkType)
+                }
             });
     }
     function previewImage(){
@@ -43,9 +40,9 @@
 <body>
 <h1>Title h1</h1>
 <br/>
-<button onclick="test()">button</button>
+<button onclick="chooseImage()">选择图片</button>
 <br/>
-<input type="button" onclick="toast()" id="btn_promopt" value='btnPromopt'/>
+<input type="button" onclick="toast('msg')" id="btn_promopt" value='btnPromopt'/>
 <br/>
 <input type="button" onclick="getNetworkType()"  value='获取网络状态'/>
 <br/>

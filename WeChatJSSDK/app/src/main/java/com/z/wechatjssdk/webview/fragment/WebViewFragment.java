@@ -121,7 +121,6 @@ public class WebViewFragment extends Fragment implements IFragmentView,RequestWa
         if (requestCode<BASE_REQ_CODE_CHOOSE_IMG)
             return;
         processChooseImgResult(requestCode,resultCode,data);
-
     }
 
     /**

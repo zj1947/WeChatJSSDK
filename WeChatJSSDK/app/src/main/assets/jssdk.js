@@ -1,11 +1,9 @@
   function websiteReq(interfaceNm,parameter,a){
-        console.log("JSBridge clientReturn interfaceNm:"+interfaceNm);
          WxJSBridge.websiteReq(interfaceNm,parameter,function(result){clientReturn(interfaceNm,result,a);})
     }
   function clientReturn(interfaceNm,result,a){
        var jo=toJson(result);
         console.log("JSBridge clientReturn:"+JSON.stringify(jo));
-        console.log("JSBridge clientReturn interfaceNm:"+interfaceNm);
        var responseStatus=(jo.errMsg).substring(interfaceNm.length+1);
         switch(responseStatus){
             case "ok":

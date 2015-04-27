@@ -30,6 +30,8 @@ import java.util.HashMap;
 
 public class ImgsActivity extends ActionBarActivity {
 
+	public static final String INTENT_TAG_FILES = "files";
+
     private static final String IMAGE_CACHE_DIR = "thumbs";
 
 	Bundle bundle;
@@ -208,7 +210,7 @@ public class ImgsActivity extends ActionBarActivity {
 	private void confirmFiles(){
 		Intent intent =new Intent();
 		Bundle bundle=new Bundle();
-		bundle.putStringArrayList("files", filelist);
+		bundle.putStringArrayList(INTENT_TAG_FILES, filelist);
 		intent.putExtras(bundle);
 		setResult(RESULT_OK,intent);
 		this.finish();
