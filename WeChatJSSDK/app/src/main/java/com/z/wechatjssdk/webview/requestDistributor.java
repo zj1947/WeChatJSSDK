@@ -9,11 +9,11 @@ import org.json.JSONObject;
 /**
  * Created by Administrator on 15-3-10.
  */
-public class EventDistributor {
+public class requestDistributor {
 
     private RequestWatcher reqWatcher;
 
-    public EventDistributor() {
+    public requestDistributor() {
     }
 
     public void distributorReqAction(WebView webView,String interfaceNm, final JSONObject jo, int index) throws WebException{

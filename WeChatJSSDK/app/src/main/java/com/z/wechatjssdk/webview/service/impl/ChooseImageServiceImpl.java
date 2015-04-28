@@ -17,7 +17,7 @@ public class ChooseImageServiceImpl extends BaseServiceImpl {
 
     @Override
     public void parserReqJSON(JSONObject jsonObject) throws JSONException {
-        localImgId=(LocalImgId)request.getT();
+        localImgId=(LocalImgId)mRequest.getT();
     }
     @Override
     public void setResultJSON() throws JSONException {

@@ -7,8 +7,8 @@ import com.z.wechatjssdk.webview.fragment.IFragmentView;
  * Created by Administrator on 15-4-22.
  */
 public class ResponseDistributor implements IResponseDistributor{
-    private IFragmentView iFragmentView;
 
+    private IFragmentView iFragmentView;
     public ResponseDistributor(IFragmentView iFragmentView) {
         this.iFragmentView = iFragmentView;
     }
@@ -19,6 +19,7 @@ public class ResponseDistributor implements IResponseDistributor{
         String interfaceNm=response.getInterfaceNm();
 
         if (interfaceNm.equals(WebInterfaceContents.INTERFACE_NM_TOAST)){
+
             String msg=(String)response.getT();
             iFragmentView.toast(msg);
         }

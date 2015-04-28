@@ -5,12 +5,12 @@ import org.json.JSONObject;
 /**
  * Created by Administrator on 15-4-22.
  */
-public class Request <T>{
+public class Request {
 
     private int queueIndex;
     private String interfaceNm;
     private JSONObject requestJSON;
-    private T t;
+    private Object t;
 
     public Request(String interfaceNm, JSONObject requestJSON,int queueIndex) {
         this.interfaceNm = interfaceNm;
@@ -42,11 +42,11 @@ public class Request <T>{
         this.queueIndex = queueIndex;
     }
 
-    public T getT() {
+    public Object getT() {
         return t;
     }
 
-    public void setT(T t) {
+    public void setT(Object t) {
         this.t = t;
     }
 }

@@ -1,43 +1,72 @@
 package com.z.wechatjssdk.webview.service.impl;
 
+import com.z.wechatjssdk.mock.MockGetLocationUtil;
+import com.z.wechatjssdk.mock.OnGetLocationListener;
 import com.z.wechatjssdk.webview.WebInterfaceContents;
+import com.z.wechatjssdk.webview.bean.Request;
+import com.z.wechatjssdk.webview.bean.Response;
 import com.z.wechatjssdk.webview.bean.event.Location;
+import com.z.wechatjssdk.webview.service.IOnServiceFinish;
+import com.z.wechatjssdk.webview.service.IService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
 /**
  * Created by Administrator on 15-4-27.
  */
-public class GetLocationServiceImpl extends BaseServiceImpl {
+public class GetLocationServiceImpl implements IService,OnGetLocationListener {
 
-    @Override
-    public void parserReqJSON(JSONObject jsonObject) throws JSONException {
-    }
+    private IOnServiceFinish listener;
+    private String mInterfaceNm;
+    private JSONObject mJoResult;
+    protected Response mResponse;
 
-    @Override
-    public void setResultJSON() throws JSONException {
-
-        Location location = getLocation();
-        mJoResult.put("latitude", location.getLatitude());
-        mJoResult.put("longitude", location.getLongitude());
-        mJoResult.put("speed", location.getSpeed());
-        mJoResult.put("accuracy", location.getAccuracy());
-        setOkResult();
-
+    public GetLocationServiceImpl() {
+        mJoResult =new JSONObject();
 
     }
 
-    public Location getLocation() {
+    @Override
+    public void processRequest(Request request, IOnServiceFinish listener) {
+        this.listener=listener;
+        mInterfaceNm=request.getInterfaceNm();
+        mResponse=new Response(mInterfaceNm,mJoResult,request.getQueueIndex());
 
+        MockGetLocationUtil locationUtil=new MockGetLocationUtil();
+        locationUtil.getLocation(this);
+    }
+
+    @Override
+    public void onError(String msg) {
         try {
-            //设定获取位置需5s，模拟线程阻塞
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
+            mJoResult.put(WebInterfaceContents.ERR_MSG, msg);
+        } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        Location location = new Location(33.4f, 26.21f, 5.1f, 10);
-        return location;
+        listener.onServiceFinish(mResponse);
     }
+
+    @Override
+    public void onGetLocation(Location location) {
+
+        try {
+            mJoResult.put("accuracy", location.getAccuracy());
+            mJoResult.put("latitude", location.getLatitude());
+            mJoResult.put("longitude", location.getLongitude());
+            mJoResult.put("speed", location.getSpeed());
+            mJoResult.put(WebInterfaceContents.ERR_MSG, mInterfaceNm + ":ok");
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            try {
+                mJoResult.put(WebInterfaceContents.ERR_MSG, e.getMessage());
+            } catch (JSONException j) {
+                j.printStackTrace();
+            }
+        }
+        listener.onServiceFinish(mResponse);
+    }
+
 }

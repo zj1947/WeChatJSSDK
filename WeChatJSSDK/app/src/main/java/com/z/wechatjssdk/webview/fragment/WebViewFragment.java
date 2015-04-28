@@ -24,12 +24,9 @@ import com.z.wechatjssdk.view.LoadingUiHelper;
 import com.z.wechatjssdk.webview.EventManager;
 import com.z.wechatjssdk.webview.RequestWatcher;
 import com.z.wechatjssdk.webview.WebInterfaceContents;
-import com.z.wechatjssdk.webview.bean.event.LocalImgId;
 import com.z.wechatjssdk.webview.bean.Request;
-import com.z.wechatjssdk.webview.bean.Response;
+import com.z.wechatjssdk.webview.bean.event.LocalImgId;
 import com.z.wechatjssdk.webview.js.HostJsScope;
-import com.z.wechatjssdk.webview.service.IService;
-import com.z.wechatjssdk.webview.service.impl.ChooseImageServiceImpl;
 
 import java.util.ArrayList;
 
@@ -163,7 +160,7 @@ public class WebViewFragment extends Fragment implements IFragmentView,RequestWa
             return;
         }
 
-        eventManager.processEvent(request);
+        eventManager.deliveryEvent(request);
     }
 
     private void initView(View rootView) {
@@ -214,7 +211,7 @@ public class WebViewFragment extends Fragment implements IFragmentView,RequestWa
     private void processChooseImgResult(int requestCode, int resultCode,Intent data){
 
         int queueIndex=requestCode-BASE_REQ_CODE_CHOOSE_IMG;
-        Request<LocalImgId> request=new Request(WebInterfaceContents.INTERFACE_NM_CHOOSE_IMG,null,queueIndex);
+        Request request=new Request(WebInterfaceContents.INTERFACE_NM_CHOOSE_IMG,null,queueIndex);
         LocalImgId localImgId=new LocalImgId();
         request.setT(localImgId);
 
@@ -229,12 +226,7 @@ public class WebViewFragment extends Fragment implements IFragmentView,RequestWa
             localImgId.setLocalIds(fileList);
         }
 
-
-        IService chooseServiceImpl=new ChooseImageServiceImpl();
-        Response response=chooseServiceImpl.getResponseJSON(request);
-
-        eventManager.addQueue(WebInterfaceContents.INTERFACE_NM_CHOOSE_IMG);
-        eventManager.onServiceFinish(response);
+        eventManager.deliveryEvent(request);
 
     }
 

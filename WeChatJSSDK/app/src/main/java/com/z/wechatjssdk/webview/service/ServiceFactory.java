@@ -1,6 +1,7 @@
 package com.z.wechatjssdk.webview.service;
 
 import com.z.wechatjssdk.webview.WebInterfaceContents;
+import com.z.wechatjssdk.webview.service.impl.ChooseImageServiceImpl;
 import com.z.wechatjssdk.webview.service.impl.GetLocationServiceImpl;
 import com.z.wechatjssdk.webview.service.impl.GetNetworkTypeServiceImpl;
 import com.z.wechatjssdk.webview.service.impl.ToastServiceImpl;
@@ -19,7 +20,7 @@ public class ServiceFactory {
         } else if (interfaceNm.equals(WebInterfaceContents.INTERFACE_NM_UPLOAD_IMG)) {
 
         } else if (interfaceNm.equals(WebInterfaceContents.INTERFACE_NM_CHOOSE_IMG)) {
-
+            return new ChooseImageServiceImpl();
         } else if (interfaceNm.equals(WebInterfaceContents.INTERFACE_NM_GO_BACK)) {
 
         } else if (interfaceNm.equals(WebInterfaceContents.INTERFACE_NM_ALERT)) {

@@ -5,19 +5,18 @@ import org.json.JSONObject;
 /**
  * Created by Administrator on 15-4-22.
  */
-public class Response<T>{
+public class Response{
 
     private int queueIndex;
     private String interfaceNm;
     private JSONObject responseJSON;
-    private T t;
+    private Object t;
 
     public Response(String interfaceNm, JSONObject responseJSON,int queueIndex) {
         this.interfaceNm = interfaceNm;
         this.responseJSON = responseJSON;
         this.queueIndex=queueIndex;
     }
-
     public int getQueueIndex() {
         return queueIndex;
     }
@@ -42,11 +41,11 @@ public class Response<T>{
         this.responseJSON = responseJSON;
     }
 
-    public T getT() {
+    public Object getT() {
         return t;
     }
 
-    public void setT(T t) {
+    public void setT(Object t) {
         this.t = t;
     }
 }

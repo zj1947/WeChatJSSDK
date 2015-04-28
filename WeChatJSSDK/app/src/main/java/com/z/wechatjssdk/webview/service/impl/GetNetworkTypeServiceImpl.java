@@ -56,7 +56,7 @@ public class GetNetworkTypeServiceImpl extends BaseServiceImpl {
         if (info.getType()==ConnectivityManager.TYPE_MOBILE){
             switch (info.getSubtype()){
                 case TelephonyManager.NETWORK_TYPE_CDMA:
-                    return "µçÐÅµÄ2G";
+                    return "ç”µä¿¡2G";
                 default:return "mobile net work";
             }
         }

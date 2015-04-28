@@ -10,7 +10,7 @@ import org.json.JSONObject;
 /**
  * Created by Administrator on 15-4-23.
  */
-public class ToastServiceImpl extends BaseServiceImpl<String> {
+public class ToastServiceImpl extends BaseServiceImpl {
     private String strMsg;
     @Override
     public void setResultJSON() throws JSONException {
@@ -18,7 +18,7 @@ public class ToastServiceImpl extends BaseServiceImpl<String> {
             mJoResult.put(WebInterfaceContents.ERR_MSG,"message is empty");
         }else {
             setOkResult();
-            response.setT(strMsg);
+            mResponse.setT(strMsg);
         }
     }
 

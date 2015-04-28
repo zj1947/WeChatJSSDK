@@ -11,7 +11,6 @@ import com.z.wechatjssdk.R;
 
 /**
  * Created by Administrator on 14-8-13.
- * 进度对话框工具，创建、展示、取消进度对话框
  */
 public class LoadingUiHelper {
 

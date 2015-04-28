@@ -6,9 +6,9 @@ import com.z.wechatjssdk.webview.bean.Request;
 import com.z.wechatjssdk.webview.bean.Response;
 import com.z.wechatjssdk.webview.fragment.IFragmentView;
 import com.z.wechatjssdk.webview.js.JsCallback;
-import com.z.wechatjssdk.webview.service.manager.IServiceManager;
-import com.z.wechatjssdk.webview.service.manager.IOnServiceFinish;
-import com.z.wechatjssdk.webview.service.manager.impl.ServiceManagerImpl;
+import com.z.wechatjssdk.webview.service.IService;
+import com.z.wechatjssdk.webview.service.ServiceFactory;
+import com.z.wechatjssdk.webview.service.IOnServiceFinish;
 
 import org.json.JSONObject;
 
@@ -17,7 +17,7 @@ import java.util.HashMap;
 /**
  * Created by Administrator on 15-4-22.
  */
-public class EventManager implements IPresenter,IOnServiceFinish {
+public class EventManager implements IDelivery,IOnServiceFinish {
 
     private IResponseDistributor iResponseDistributor;
     private HashMap<String,JSONObject> reqQueue;
@@ -31,21 +31,23 @@ public class EventManager implements IPresenter,IOnServiceFinish {
 
 
     @Override
-    public void processEvent(Request request) {
-        reqQueue.put(request.getInterfaceNm(),null);
-        IServiceManager eventService= new ServiceManagerImpl();
-        eventService.getResponse(request,this);
+    public void deliveryEvent(Request request) {
+        String interfaceNm=request.getInterfaceNm();
+
+        addQueue(interfaceNm);
+        IService service= ServiceFactory.produceService(interfaceNm);
+        service.processRequest(request, this);
     }
 
     @Override
-    public void onServiceFinish(Response response) {
+    public void onServiceFinish(final Response response) {
 
         final JsCallback jsCallBack=new JsCallback(
                 webView,
                 WebInterfaceContents.INJECTED_NAME,
-                response.getQueueIndex());;
-//        jsCallBack.setPermanent(true);
+                response.getQueueIndex());
         String interfaceNm=response.getInterfaceNm();
+
         if (reqQueue.containsKey(interfaceNm)){
             reqQueue.remove(interfaceNm);
             try {
@@ -54,7 +56,11 @@ public class EventManager implements IPresenter,IOnServiceFinish {
                 e.printStackTrace();
             }
         }
-
         iResponseDistributor.distributeResponse(response);
+
+    }
+
+    public synchronized void addQueue(String interfaceNm){
+        reqQueue.put(interfaceNm,null);
     }
 }
