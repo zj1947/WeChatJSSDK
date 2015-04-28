@@ -21,7 +21,7 @@ import com.z.wechatjssdk.R;
 import com.z.wechatjssdk.ui.img_selector.ImgFileListActivity;
 import com.z.wechatjssdk.ui.img_selector.ImgsActivity;
 import com.z.wechatjssdk.view.LoadingUiHelper;
-import com.z.wechatjssdk.webview.EventManager;
+import com.z.wechatjssdk.webview.DeliveryManager;
 import com.z.wechatjssdk.webview.RequestWatcher;
 import com.z.wechatjssdk.webview.WebInterfaceContents;
 import com.z.wechatjssdk.webview.bean.Request;
@@ -45,7 +45,7 @@ public class WebViewFragment extends Fragment implements IFragmentView,RequestWa
     private WebView mWebView;
     private String strUrl;
     private LoadingUiHelper mLoadingUiHelper;
-    private EventManager eventManager;
+    private DeliveryManager eventManager;
 
     public static WebViewFragment newInstance(String url) {
         WebViewFragment fragment = new WebViewFragment();
@@ -185,7 +185,7 @@ public class WebViewFragment extends Fragment implements IFragmentView,RequestWa
         mWebView.getSettings().setLoadWithOverviewMode(true);
         mWebView.getSettings().setDomStorageEnabled(true);
 
-        eventManager = new EventManager(this,mWebView);
+        eventManager = new DeliveryManager(this,mWebView);
         //绑定事件处理类
         mWebView.setTag(this);
 

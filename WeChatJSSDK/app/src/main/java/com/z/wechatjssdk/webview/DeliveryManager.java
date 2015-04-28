@@ -17,12 +17,12 @@ import java.util.HashMap;
 /**
  * Created by Administrator on 15-4-22.
  */
-public class EventManager implements IDelivery,IOnServiceFinish {
+public class DeliveryManager implements IDelivery,IOnServiceFinish {
 
     private IResponseDistributor iResponseDistributor;
     private HashMap<String,JSONObject> reqQueue;
     private WebView webView;
-    public EventManager(IFragmentView iFragmentView,WebView webView) {
+    public DeliveryManager(IFragmentView iFragmentView, WebView webView) {
         reqQueue=new HashMap<>();
 
        iResponseDistributor=new ResponseDistributor(iFragmentView);
