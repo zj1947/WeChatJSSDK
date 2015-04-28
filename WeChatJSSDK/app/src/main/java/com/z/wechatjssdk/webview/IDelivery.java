@@ -8,5 +8,5 @@ import org.json.JSONObject;
  * Created by Administrator on 15-4-22.
  */
 public interface IDelivery {
-    public void deliveryEvent(Request request);
+    public void deliveryRequest(Request request);
 }

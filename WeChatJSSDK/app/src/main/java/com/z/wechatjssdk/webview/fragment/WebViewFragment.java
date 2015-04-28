@@ -160,7 +160,7 @@ public class WebViewFragment extends Fragment implements IFragmentView,RequestWa
             return;
         }
 
-        eventManager.deliveryEvent(request);
+        eventManager.deliveryRequest(request);
     }
 
     private void initView(View rootView) {
@@ -226,7 +226,7 @@ public class WebViewFragment extends Fragment implements IFragmentView,RequestWa
             localImgId.setLocalIds(fileList);
         }
 
-        eventManager.deliveryEvent(request);
+        eventManager.deliveryRequest(request);
 
     }
 

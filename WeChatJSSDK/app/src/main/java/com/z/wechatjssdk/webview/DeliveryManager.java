@@ -31,7 +31,7 @@ public class DeliveryManager implements IDelivery,IOnServiceFinish {
 
 
     @Override
-    public void deliveryEvent(Request request) {
+    public void deliveryRequest(Request request) {
         String interfaceNm=request.getInterfaceNm();
 
         addQueue(interfaceNm);
