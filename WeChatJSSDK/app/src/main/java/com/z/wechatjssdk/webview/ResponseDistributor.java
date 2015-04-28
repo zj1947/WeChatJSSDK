@@ -8,11 +8,15 @@ import com.z.wechatjssdk.webview.fragment.IFragmentView;
  */
 public class ResponseDistributor implements IResponseDistributor{
 
-    private IFragmentView iFragmentView;
+    private IFragmentView iFragmentView;//界面操作接口
     public ResponseDistributor(IFragmentView iFragmentView) {
         this.iFragmentView = iFragmentView;
     }
 
+    /**
+     * 根据执行结果，执行界面操作
+     * @param response
+     */
     @Override
     public void distributeResponse(Response response) {
 

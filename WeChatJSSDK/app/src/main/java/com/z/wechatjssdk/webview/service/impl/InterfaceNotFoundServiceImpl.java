@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 /**
  * Created by Administrator on 15-4-28.
+ * 接口名未匹配处理
  */
 public class InterfaceNotFoundServiceImpl extends BaseServiceImpl {
     @Override

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Administrator on 15-4-24.
+ * 选择图片
  */
 public class ChooseImageServiceImpl extends BaseServiceImpl {
 
@@ -24,6 +25,13 @@ public class ChooseImageServiceImpl extends BaseServiceImpl {
        mJoResult.put("localIds", null==localImgId?"":toJsonArray(localImgId.getLocalIds()));
         setOkResult();
     }
+
+    /**
+     * 把图片ArrayList<String> 转为 JSONArray
+     * @param list
+     * @return
+     * @throws JSONException
+     */
     public JSONArray toJsonArray(ArrayList<String> list) throws JSONException{
 
         JSONArray array = new JSONArray();

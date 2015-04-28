@@ -119,6 +119,7 @@ public class JsCallJava {
         return mPreloadInterfaceJS;
     }
 
+    @Deprecated
     public String call(WebView webView, String jsonStr) {
         if (!TextUtils.isEmpty(jsonStr)) {
             try {
@@ -216,22 +217,27 @@ public class JsCallJava {
                         if ("string".equals(currType)) {
                             interfaceNm= argsVals.getString(0);
                         }else {
-                            return getReturn(strJSON, 500, "not found method(" + sign + ") with valid parameters(interfaceNm)");
+                            return getReturn(strJSON, 500, "the method(" + sign + ") with invalid parameters(interfaceName)");
                         }
                         currType = argsTypes.optString(1);
                         if ("object".equals(currType)) {
                             joParams = argsVals.isNull(1) ? null : (argsVals.getJSONObject(1));
+                        }else {
+                            return getReturn(strJSON, 500, "the method(" + sign + ") it is second parameters must be JSONObject");
                         }
                         currType = argsTypes.optString(2);
                         if ("function".equals(currType)) {
-                            sign += "_F";
                             jsCallBackIndex=argsVals.getInt(2);
+                        }else {
+                            return getReturn(strJSON, 500, "the method(" + sign + ") it is second parameters must be function");
                         }
+                }else {
+                    return getReturn(strJSON, 500, "the method(" + sign + ") with invalid parameters");
                 }
-                webView.getTag();
+                //转发给webviewFragment处理
                  eventDistributor.distributorReqAction(webView,interfaceNm, joParams, jsCallBackIndex);
 
-                return getReturn(strJSON, 200, "distributorReqAction");
+                return getReturn(strJSON, 200, "android client process request");
             } catch (Exception e) {
                 //优先返回详细的错误信息
                 if (e.getCause() != null) {

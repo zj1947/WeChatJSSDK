@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by Administrator on 15-4-24.
  */
 public class LocalImgId {
-    private ArrayList<String> localIds;
+    private ArrayList<String> localIds;//图片路径
 
     public LocalImgId() {
     }

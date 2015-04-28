@@ -7,10 +7,10 @@ import org.json.JSONObject;
  */
 public class Response{
 
-    private int queueIndex;
-    private String interfaceNm;
-    private JSONObject responseJSON;
-    private Object tag;
+    private int queueIndex;//回调数组下标
+    private String interfaceNm;//接口名
+    private JSONObject responseJSON; //返回给web端的JSON结果
+    private Object tag;//额外参数
 
     public Response(String interfaceNm, JSONObject responseJSON,int queueIndex) {
         this.interfaceNm = interfaceNm;

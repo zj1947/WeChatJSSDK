@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 /**
  * Created by Administrator on 15-4-23.
+ * 获取网络状态
  */
 public class GetNetworkTypeServiceImpl extends BaseServiceImpl {
 
@@ -39,6 +40,10 @@ public class GetNetworkTypeServiceImpl extends BaseServiceImpl {
     }
 
 
+    /**
+     * 获取网络状态
+     * @return wifi或手机信号、电信2G、其他网络类型
+     */
     private String getNetworkType(){
         ConnectivityManager connectMgr = (ConnectivityManager) JssdkApp.getInstance()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -57,10 +62,10 @@ public class GetNetworkTypeServiceImpl extends BaseServiceImpl {
             switch (info.getSubtype()){
                 case TelephonyManager.NETWORK_TYPE_CDMA:
                     return "电信2G";
-                default:return "mobile net work";
+                default:return "手机信号";
             }
         }
 
-        return "other network type";
+        return "其他网络类型";
     }
 }

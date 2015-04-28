@@ -35,12 +35,12 @@ import java.util.ArrayList;
  * A simple {@link android.support.v4.app.Fragment} subclass.
  */
 
-public class WebViewFragment extends Fragment implements IFragmentView,RequestWatcher {
+public class WebViewFragment extends Fragment implements IFragmentView, RequestWatcher {
 
     private static final String TAG = WebViewFragment.class.getSimpleName();
 
     private static final String ARG_URL = "param1";
-    private static final int BASE_REQ_CODE_CHOOSE_IMG=100;
+    private static final int BASE_REQ_CODE_CHOOSE_IMG = 100;
 
     private WebView mWebView;
     private String strUrl;
@@ -111,13 +111,20 @@ public class WebViewFragment extends Fragment implements IFragmentView,RequestWa
 
     }
 
+    /**
+     * @see #chooseImg(int) requestCode=queueIndex+BASE_REQ_CODE_CHOOSE_IMG
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode,
                                  Intent data) {
-
-        if (requestCode<BASE_REQ_CODE_CHOOSE_IMG)
+        //如果不是选择图片，退出
+        if (requestCode < BASE_REQ_CODE_CHOOSE_IMG)
             return;
-        processChooseImgResult(requestCode,resultCode,data);
+        //传递给图片处理函数处理
+        processChooseImgResult(requestCode, resultCode, data);
     }
 
     /**
@@ -143,7 +150,7 @@ public class WebViewFragment extends Fragment implements IFragmentView,RequestWa
 
     @Override
     public void onDetach() {
-        if(null!=mWebView){
+        if (null != mWebView) {
             mWebView.loadUrl("about:blank");
         }
         mLoadingUiHelper.dismissDialog();
@@ -151,21 +158,28 @@ public class WebViewFragment extends Fragment implements IFragmentView,RequestWa
         super.onDetach();
     }
 
+    /**
+     * 当有web端调用JS SDK ，此接口会执行
+     * @param request 网络请求 {@link com.z.wechatjssdk.webview.bean.Request}
+     */
     @Override
     public void webReqEvent(Request request) {
 
-        String strInterfaceNm=request.getInterfaceNm();
-        if (WebInterfaceContents.INTERFACE_NM_CHOOSE_IMG.equals(strInterfaceNm)){
+        String strInterfaceNm = request.getInterfaceNm();
+        //图片选择接口特殊处理，需选择图片，再处理回调
+        if (WebInterfaceContents.INTERFACE_NM_CHOOSE_IMG.equals(strInterfaceNm)) {
             chooseImg(request.getQueueIndex());
             return;
         }
-
+        //传递请求，处理请求
         eventManager.deliveryRequest(request);
+
     }
 
     private void initView(View rootView) {
         mWebView = (WebView) rootView.findViewById(R.id.wbv_page);
     }
+
     private void initData() {
 
         mLoadingUiHelper = new LoadingUiHelper(mWebView.getContext(), null);
@@ -185,7 +199,7 @@ public class WebViewFragment extends Fragment implements IFragmentView,RequestWa
         mWebView.getSettings().setLoadWithOverviewMode(true);
         mWebView.getSettings().setDomStorageEnabled(true);
 
-        eventManager = new DeliveryManager(this,mWebView);
+        eventManager = new DeliveryManager(this, mWebView);
         //绑定事件处理类
         mWebView.setTag(this);
 
@@ -199,33 +213,53 @@ public class WebViewFragment extends Fragment implements IFragmentView,RequestWa
         mWebView.loadUrl(url);
     }
 
+    /**
+     * 气泡通知
+     *
+     * @param content 通知内容
+     */
     @Override
     public void toast(String content) {
         Toast.makeText(getActivity(), content, Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * 选择图片
+     * @param queueIndex
+     * @see #onActivityResult(int, int, Intent) 执行选图后会调用这个函数
+     */
     private void chooseImg(int queueIndex) {
         startActivityForResult(new Intent(getActivity(), ImgFileListActivity.class), queueIndex + BASE_REQ_CODE_CHOOSE_IMG);
     }
 
-    private void processChooseImgResult(int requestCode, int resultCode,Intent data){
+    /**
+     * 选图结果处理
+     *
+     * @param requestCode {@see #chooseImg}
+     * @param resultCode
+     * @param data
+     */
+    private void processChooseImgResult(int requestCode, int resultCode, Intent data) {
 
-        int queueIndex=requestCode-BASE_REQ_CODE_CHOOSE_IMG;
-        Request request=new Request(WebInterfaceContents.INTERFACE_NM_CHOOSE_IMG,null,queueIndex);
-        LocalImgId localImgId=new LocalImgId();
+        int queueIndex = requestCode - BASE_REQ_CODE_CHOOSE_IMG;
+
+        Request request = new Request(WebInterfaceContents.INTERFACE_NM_CHOOSE_IMG, null, queueIndex);
+
+        LocalImgId localImgId = new LocalImgId();
+        //添加图片路径类
         request.setTag(localImgId);
 
-        if (getActivity().RESULT_OK == resultCode){
+        if (getActivity().RESULT_OK == resultCode) {
 
             Bundle bundle = null;
             if (data != null) {
                 bundle = data.getExtras();
+                //图片选择结果处理
+                ArrayList<String> fileList = bundle.getStringArrayList(ImgsActivity.INTENT_TAG_FILES);
+                localImgId.setLocalIds(fileList);
             }
-            //多图选择返回不为空
-            ArrayList<String> fileList = bundle.getStringArrayList(ImgsActivity.INTENT_TAG_FILES);
-            localImgId.setLocalIds(fileList);
         }
-
+        //转发请求
         eventManager.deliveryRequest(request);
 
     }
