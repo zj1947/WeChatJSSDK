@@ -213,7 +213,7 @@ public class WebViewFragment extends Fragment implements IFragmentView,RequestWa
         int queueIndex=requestCode-BASE_REQ_CODE_CHOOSE_IMG;
         Request request=new Request(WebInterfaceContents.INTERFACE_NM_CHOOSE_IMG,null,queueIndex);
         LocalImgId localImgId=new LocalImgId();
-        request.setT(localImgId);
+        request.setTag(localImgId);
 
         if (getActivity().RESULT_OK == resultCode){
 

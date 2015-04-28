@@ -18,7 +18,7 @@ public class ToastServiceImpl extends BaseServiceImpl {
             mJoResult.put(WebInterfaceContents.ERR_MSG,"message is empty");
         }else {
             setOkResult();
-            mResponse.setT(strMsg);
+            mResponse.setTag(strMsg);
         }
     }
 

@@ -10,7 +10,7 @@ public class Response{
     private int queueIndex;
     private String interfaceNm;
     private JSONObject responseJSON;
-    private Object t;
+    private Object tag;
 
     public Response(String interfaceNm, JSONObject responseJSON,int queueIndex) {
         this.interfaceNm = interfaceNm;
@@ -41,11 +41,11 @@ public class Response{
         this.responseJSON = responseJSON;
     }
 
-    public Object getT() {
-        return t;
+    public Object getTag() {
+        return tag;
     }
 
-    public void setT(Object t) {
-        this.t = t;
+    public void setTag(Object tag) {
+        this.tag = tag;
     }
 }

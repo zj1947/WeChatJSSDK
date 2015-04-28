@@ -20,7 +20,7 @@ public class ResponseDistributor implements IResponseDistributor{
 
         if (interfaceNm.equals(WebInterfaceContents.INTERFACE_NM_TOAST)){
 
-            String msg=(String)response.getT();
+            String msg=(String)response.getTag();
             iFragmentView.toast(msg);
         }
     }
