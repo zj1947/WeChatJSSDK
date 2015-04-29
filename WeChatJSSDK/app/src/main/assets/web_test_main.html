@@ -37,17 +37,24 @@
                 }
             });
     }
+    function hideOptionMenu(){
+            wx.hideOptionMenu();
+    }
 </script>
 <body>
 <h1>Title h1</h1>
 <br/>
 <button onclick="chooseImage()">选择图片</button>
 <br/>
-<input type="button" onclick="toast('msg')" id="btn_promopt" value='btnPromopt'/>
+<input type="button" onclick="toast('显示气泡测试成功')" value='显示气泡'/>
 <br/>
 <input type="button" onclick="getNetworkType()"  value='获取网络状态'/>
 <br/>
 <button onclick="getLocation()">获取位置</button>
+<br/>
+<button onclick="hideOptionMenu()">隐藏右上角菜单</button>
+<br/>
+<button onclick="wx.showOptionMenu()">显示右上角菜单</button>
 <br/>
 </body>
 </html>

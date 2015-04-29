@@ -109,8 +109,15 @@
                             ParseObject(a),
                              a);
         },
-        test:function(b){
-            websiteReq('test',ParseObject(b),b);
+        hideOptionMenu:function(a){
+            websiteReq('hideOptionMenu',
+                            {},
+                             a);
+        },
+        showOptionMenu:function(a){
+            websiteReq('showOptionMenu',
+                            {},
+                             a);
         }
 }
 

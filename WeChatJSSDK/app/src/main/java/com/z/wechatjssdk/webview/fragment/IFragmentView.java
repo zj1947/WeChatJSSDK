@@ -13,4 +13,10 @@ public interface IFragmentView {
      * @param content 通知内容
      */
     public void toast(String content);
+
+    /**
+     * 显示或者隐藏菜单
+     * @param isVisibility true为显示，false为隐藏
+     */
+    public void setFragmentMenuVisibility(boolean isVisibility);
 }

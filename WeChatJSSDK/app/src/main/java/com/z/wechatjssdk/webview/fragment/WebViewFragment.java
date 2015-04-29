@@ -9,6 +9,9 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.SslErrorHandler;
@@ -60,6 +63,9 @@ public class WebViewFragment extends Fragment implements IFragmentView, RequestW
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
+
         if (null != getArguments()) {
             strUrl = getArguments().getString(ARG_URL);
         }
@@ -158,6 +164,24 @@ public class WebViewFragment extends Fragment implements IFragmentView, RequestW
         super.onDetach();
     }
 
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main,menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+       toast(item.getTitle().toString());
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+    }
+
     /**
      * 当有web端调用JS SDK ，此接口会执行
      * @param request 网络请求 {@link com.z.wechatjssdk.webview.bean.Request}
@@ -215,12 +239,20 @@ public class WebViewFragment extends Fragment implements IFragmentView, RequestW
 
     /**
      * 气泡通知
-     *
      * @param content 通知内容
      */
     @Override
     public void toast(String content) {
         Toast.makeText(getActivity(), content, Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * 显示或隐藏右上角菜单
+     * @param isVisibility true为显示，false为隐藏
+     */
+    @Override
+    public void setFragmentMenuVisibility(boolean isVisibility) {
+        setMenuVisibility(isVisibility);
     }
 
     /**
@@ -234,8 +266,8 @@ public class WebViewFragment extends Fragment implements IFragmentView, RequestW
 
     /**
      * 选图结果处理
-     *
-     * @param requestCode {@see #chooseImg}
+     * @see #chooseImg(int)
+     * @param requestCode
      * @param resultCode
      * @param data
      */
