@@ -26,15 +26,10 @@ public class DeliveryManager implements IDelivery, IOnServiceFinish {
      * 界面响应分配，根据执行结果回调界面响应接口{@link com.z.wechatjssdk.webview.fragment.IFragmentView}
      */
     private IResponseDistributor iResponseDistributor;
-    /**
-     * 记录当前的请求
-     */
-    private Set<String> mCurrentRequests;
 
     private WebView webView;
 
     public DeliveryManager(IFragmentView iFragmentView, WebView webView) {
-        mCurrentRequests = new HashSet<>();
         iResponseDistributor = new ResponseDistributor(iFragmentView);
         this.webView = webView;
     }
@@ -47,8 +42,6 @@ public class DeliveryManager implements IDelivery, IOnServiceFinish {
     @Override
     public void deliveryRequest(Request request) {
         String interfaceNm = request.getInterfaceNm();
-        //记录到当前请求
-        addQueue(interfaceNm);
         //使用抽象工厂方法获取具体的Service处理层
         IService service = ServiceFactory.produceService(interfaceNm);
         //处理请求，处理结束回调onServiceFinish @see #onServiceFinish(Response)
@@ -62,17 +55,6 @@ public class DeliveryManager implements IDelivery, IOnServiceFinish {
     @Override
     public void onServiceFinish(final Response response) {
 
-        String interfaceNm = response.getInterfaceNm();
-
-        synchronized (mCurrentRequests) {
-            if (mCurrentRequests.contains(interfaceNm)) {
-                //移除请求记录
-                mCurrentRequests.remove(interfaceNm);
-            } else {
-                //若当前请求没有记录，则不回调js
-                return;
-            }
-        }
         //js回调
         final JsCallback jsCallBack = new JsCallback(
                 webView,
@@ -88,13 +70,5 @@ public class DeliveryManager implements IDelivery, IOnServiceFinish {
 
     }
 
-    /**
-     * 增加当前请求
-     * @param interfaceNm
-     */
-    public  void addQueue(String interfaceNm) {
-        synchronized (mCurrentRequests){
-            mCurrentRequests.add(interfaceNm);
-        }
-    }
+
 }

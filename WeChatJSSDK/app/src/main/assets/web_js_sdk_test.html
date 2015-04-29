@@ -44,7 +44,7 @@
     function chooseImage(){
         wx.chooseImage({
              success:function(res){
-             console.log(res.localIds)
+             toast(res.localIds)
              }
         });
     }
@@ -63,7 +63,8 @@
     function getLocation(){
             wx.getLocation({
                 success:function(res){
-                    console.log('getLocation\n latitude:'+res.latitude+' longitude:'+res.longitude+' speed:'+res.speed+'  accuracy:'+res.accuracy)
+                var location='getLocation latitude:'+res.latitude+' longitude:'+res.longitude+' speed:'+res.speed+'  accuracy:'+res.accuracy;
+                    toast(location);
                 }
             });
     }
