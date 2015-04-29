@@ -9,11 +9,11 @@ import org.json.JSONObject;
 /**
  * Created by Administrator on 15-3-10.
  */
-public class requestDistributor {
+public class ReqDistributor {
 
     private RequestWatcher reqWatcher;
 
-    public requestDistributor() {
+    public ReqDistributor() {
     }
 
     /**

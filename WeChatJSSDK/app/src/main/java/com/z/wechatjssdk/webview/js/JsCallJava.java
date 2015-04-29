@@ -4,7 +4,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.WebView;
 
-import com.z.wechatjssdk.webview.requestDistributor;
+import com.z.wechatjssdk.webview.ReqDistributor;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,13 +17,13 @@ public class JsCallJava {
     private final static String TAG = "JsCallJava";
     private final static String RETURN_RESULT_FORMAT = "{\"code\": %d, \"result\": %s}";
     private HashMap<String, Method> mMethodsMap;
-    private requestDistributor eventDistributor;
+    private ReqDistributor eventDistributor;
     private String mInjectedName;
     private String mPreloadInterfaceJS;
 //    private Gson mGson;
 
     public JsCallJava (String injectedName, Class injectedCls) {
-        eventDistributor=new requestDistributor();
+        eventDistributor=new ReqDistributor();
         try {
             if (TextUtils.isEmpty(injectedName)) {
                 throw new Exception("injected name can not be null");
