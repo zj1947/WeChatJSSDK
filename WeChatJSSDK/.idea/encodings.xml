@@ -4,7 +4,7 @@
     <file url="file://$PROJECT_DIR$/app/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/z/wechatjssdk/webview/service/impl/BaseServiceImpl.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/z/wechatjssdk/webview/service/impl/ToastServiceImpl.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/menu/menu_main.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/menu/menu_webview_fragment.xml" charset="GBK" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

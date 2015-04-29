@@ -2,8 +2,6 @@ package com.z.wechatjssdk.webview.fragment;
 
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -11,19 +9,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.z.wechatjssdk.R;
 import com.z.wechatjssdk.ui.img_selector.ImgFileListActivity;
 import com.z.wechatjssdk.ui.img_selector.ImgsActivity;
-import com.z.wechatjssdk.view.LoadingUiHelper;
 import com.z.wechatjssdk.webview.DeliveryManager;
 import com.z.wechatjssdk.webview.RequestWatcher;
 import com.z.wechatjssdk.webview.WebInterfaceContents;
@@ -47,7 +41,6 @@ public class WebViewFragment extends Fragment implements IFragmentView, RequestW
 
     private WebView mWebView;
     private String strUrl;
-    private LoadingUiHelper mLoadingUiHelper;
     private DeliveryManager eventManager;
 
     public static WebViewFragment newInstance(String url) {
@@ -159,22 +152,14 @@ public class WebViewFragment extends Fragment implements IFragmentView, RequestW
         if (null != mWebView) {
             mWebView.loadUrl("about:blank");
         }
-        mLoadingUiHelper.dismissDialog();
-        mLoadingUiHelper = null;
         super.onDetach();
     }
 
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_main,menu);
+        inflater.inflate(R.menu.menu_webview_fragment,menu);
         super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-       toast(item.getTitle().toString());
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -206,8 +191,6 @@ public class WebViewFragment extends Fragment implements IFragmentView, RequestW
 
     private void initData() {
 
-        mLoadingUiHelper = new LoadingUiHelper(mWebView.getContext(), null);
-
         //支持javascript
         mWebView.getSettings().setJavaScriptEnabled(true);
 //            mWebView.getSettings().setTextSize(WebSettings.TextSize.LARGER);
@@ -228,7 +211,6 @@ public class WebViewFragment extends Fragment implements IFragmentView, RequestW
         mWebView.setTag(this);
 
         mWebView.setWebChromeClient(new InjectedChromeClient(WebInterfaceContents.INJECTED_NAME, HostJsScope.class));
-        mWebView.setWebViewClient(new InfoDetailWebViewClient());
 
     }
 
@@ -294,40 +276,6 @@ public class WebViewFragment extends Fragment implements IFragmentView, RequestW
         //转发请求
         eventManager.deliveryRequest(request);
 
-    }
-
-
-    class InfoDetailWebViewClient extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//            view.loadUrl(url);
-            return super.shouldOverrideUrlLoading(view, url);
-        }
-
-        @Override
-        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-            //handler.cancel(); 默认的处理方式，WebView变成空白页
-//                        //接受证书
-            handler.proceed();
-//            handleMessage(Message msg); //其他处理
-        }
-
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            super.onPageStarted(view, url, favicon);
-            if (null != mLoadingUiHelper && !mLoadingUiHelper.isDialogShowing()) {
-                mLoadingUiHelper.showProgressDialog("加载中……");
-            }
-        }
-
-        @Override
-        public void onPageFinished(WebView webView, String url) {
-
-            if (null != mLoadingUiHelper)
-                mLoadingUiHelper.dismissDialog();
-
-            super.onPageFinished(webView, url);
-        }
     }
 
 

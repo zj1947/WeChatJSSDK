@@ -1,19 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivity">
+    tools:context=".webview.fragment.WebviewFragment">
     <item
         android:id="@+id/action_menu"
         android:title="@string/action_menu"
         android:orderInCategory="100"
+        app:actionProviderClass="com.z.wechatjssdk.webview.fragment.PopupMenuActionProvider"
         app:showAsAction="always" >
-        <menu>
-            <item
-                android:id="@+id/action_menu_sub_one"
-                android:title="subItem1"/>
-            <item
-                android:id="@+id/action_menu_sub_two"
-                android:title="subItem2"/>
-        </menu>
     </item>
 </menu>
