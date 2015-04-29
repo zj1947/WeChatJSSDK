@@ -193,13 +193,8 @@ public class WebViewFragment extends Fragment implements IFragmentView, RequestW
 
         //支持javascript
         mWebView.getSettings().setJavaScriptEnabled(true);
-//            mWebView.getSettings().setTextSize(WebSettings.TextSize.LARGER);
-        // 设置可以支持缩放
-//            mWebView.getSettings().setSupportZoom(false);
         // 设置出现缩放工具
         mWebView.getSettings().setBuiltInZoomControls(false);
-        //扩大比例的缩放
-        mWebView.getSettings().setUseWideViewPort(true);
         //自适应屏幕
         mWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         mWebView.getSettings().setUseWideViewPort(true);

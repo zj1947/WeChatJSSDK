@@ -22,7 +22,7 @@ public class MainActivity extends ActionBarActivity {
         if (null==savedInstanceState){
 
             Fragment fragment=
-                    WebViewFragment.newInstance("file:///android_asset/web_test_main.html");
+                    WebViewFragment.newInstance("file:///android_asset/web_js_sdk_test.html");
 
             getSupportFragmentManager().beginTransaction().add(R.id.container,fragment).commit();
         }

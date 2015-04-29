@@ -1,0 +1,160 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>webView测试</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0,
+           minimum-scale=1, target-densitydpi=medium-dpi, user-scalable=no">
+
+    <style>
+        .entry{
+        -webkit-padding-start: 30px;
+        }
+        .entry li {
+        line-height: 29px;
+        margin-left: -10px;
+        word-wrap: break-word;
+        word-break:break-all;
+        }
+        .entry li div{
+        margin-right: 10px;
+        padding-left: 8px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        background: #222222;
+        color: white;
+        word-break: break-all;
+        -ms-word-wrap: break-word;
+        word-wrap: break-word;
+        line-height: 15px;
+        font-size: 10pt;
+        }
+        .entry li div div{
+        margin-right: 20px;
+        }
+        .entry li button{
+        margin-top: 5px;
+        width: 100%;
+        height: 35px;
+        color: #111111;
+        }
+    </style>
+    <script src="jssdk.js"></script>
+    <script>
+    function chooseImage(){
+        wx.chooseImage({
+             success:function(res){
+             console.log(res.localIds)
+             }
+        });
+    }
+    function toast(msg){
+             wx.toast({
+             message:msg
+            });
+    }
+    function getNetworkType(){
+            wx.getNetworkType({
+                success:function(result){
+                    toast('getNetworkType :'+result.networkType)
+                }
+            });
+    }
+    function getLocation(){
+            wx.getLocation({
+                success:function(res){
+                    console.log('getLocation\n latitude:'+res.latitude+' longitude:'+res.longitude+' speed:'+res.speed+'  accuracy:'+res.accuracy)
+                }
+            });
+    }
+    function hideOptionMenu(){
+            wx.hideOptionMenu();
+    }
+
+
+    </script>
+</head>
+<body>
+<ul class="entry">
+    <li>
+        显示气泡<br/>
+        代码：<br/>
+        <div>
+            wx.toast({<br/>
+            <div>
+                message:msg //气泡内容<br/>
+            </div>
+            });
+        </div>
+        <button onclick="toast('显示气泡测试成功')">显示气泡</button>
+    </li>
+    <br/>
+    <li>
+        选择图片<br/>
+        代码：<br/>
+        <div>
+            wx.chooseImage({<br/>
+                <div>
+                success: function (res) {<br/>
+                var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片<br/>
+                }<br/>
+                </div>
+            });
+        </div>
+        <button onclick="chooseImage()">选择图片</button>
+    </li>
+    <br/>
+    <li>
+        获取网络状态<br/>
+        代码：<br/>
+        <div>
+            wx.getNetworkType({<br/>
+            <div>
+                success: function (res) {<br/>
+                var networkType = res.networkType; // 返回网络类型<br/>
+                }<br/>
+            </div>
+            });
+        </div>
+        <button onclick="getNetworkType()">获取网络状态</button>
+    </li>
+    <br/>
+    <li>
+        获取位置<br/>
+        代码：<br/>
+        <div>
+            wx.getLocation({<br/>
+            <div>
+                success: function (res) {<br/>
+                var latitude = res.latitude; // 纬度<br/>
+                var longitude = res.longitude; // 经度<br/>
+                var speed = res.speed; // 速度<br/>
+                var accuracy = res.accuracy; // 位置精度<br/>
+                }<br/>
+            </div>
+            });
+        </div>
+        <button onclick="getLocation()">获取位置</button>
+    </li>
+    <br/>
+    <li>
+        隐藏右上角菜单<br/>
+        代码：<br/>
+        <div>
+            wx.hideOptionMenu();
+        </div>
+        <button onclick="hideOptionMenu()">隐藏右上角菜单</button>
+    </li>
+    <br/>
+    <li>
+        显示右上角菜单<br/>
+        代码：<br/>
+        <div>
+            wx.showOptionMenu();
+        </div>
+        <button onclick="wx.showOptionMenu()">显示右上角菜单</button>
+    </li>
+    <br/>
+</ul>
+</body>
+</html>
