@@ -59,7 +59,7 @@ WxJSBridge.websiteReq是通过JAVA端注入的JS函数，通过这个函数访�
     }
 ```
 ####在java端
-web与webview之间的交互采用这个项目的交互框架（[Safe Java-JS WebView Bridge](https://github.com/pedant/safe-java-js-webview-bridge)），具体原理可查看原文说明。<\br>
+web与webview之间的交互采用这个项目的交互框架（[Safe Java-JS WebView Bridge](https://github.com/pedant/safe-java-js-webview-bridge)），具体原理可查看原文说明。
 <br>
 定义websiteReq函数，对应js文件中的WxJSBridge.websiteReq
 ```JS
