@@ -6,10 +6,10 @@ import com.z.wechatjssdk.webview.fragment.IFragmentView;
 /**
  * Created by Administrator on 15-4-22.
  */
-public class ResponseDistributor implements IResponseDistributor{
+public class ResponseDistributorImpl implements IResponseDistributor{
 
     private IFragmentView iFragmentView;//界面操作接口
-    public ResponseDistributor(IFragmentView iFragmentView) {
+    public ResponseDistributorImpl(IFragmentView iFragmentView) {
         this.iFragmentView = iFragmentView;
     }
 

@@ -10,9 +10,6 @@ import com.z.wechatjssdk.webview.service.IService;
 import com.z.wechatjssdk.webview.service.ServiceFactory;
 import com.z.wechatjssdk.webview.service.IOnServiceFinish;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Created by Administrator on 15-4-22.
  * 请求传递管理，主要是传递request给Service层{@link com.z.wechatjssdk.webview.service.IService}处理
@@ -25,12 +22,12 @@ public class DeliveryManager implements IDelivery, IOnServiceFinish {
     /**
      * 界面响应分配，根据执行结果回调界面响应接口{@link com.z.wechatjssdk.webview.fragment.IFragmentView}
      */
-    private IResponseDistributor iResponseDistributor;
+    private IResponseDistributor responseDistributorImpl;
 
     private WebView webView;
 
     public DeliveryManager(IFragmentView iFragmentView, WebView webView) {
-        iResponseDistributor = new ResponseDistributor(iFragmentView);
+        responseDistributorImpl = new ResponseDistributorImpl(iFragmentView);
         this.webView = webView;
     }
 
@@ -49,7 +46,7 @@ public class DeliveryManager implements IDelivery, IOnServiceFinish {
     }
 
     /**
-     * @see #deliveryRequest(Request) 执行这个
+     * @see #deliveryRequest(Request) 处理结束回调
      * @param response 处理结果 {@link com.z.wechatjssdk.webview.bean.Response}
      */
     @Override
@@ -66,7 +63,7 @@ public class DeliveryManager implements IDelivery, IOnServiceFinish {
             e.printStackTrace();
         }
         //界面刷新分配
-        iResponseDistributor.distributeResponse(response);
+        responseDistributorImpl.distributeResponse(response);
 
     }
 

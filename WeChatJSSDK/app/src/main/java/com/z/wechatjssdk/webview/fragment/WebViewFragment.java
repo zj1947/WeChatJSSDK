@@ -41,7 +41,7 @@ public class WebViewFragment extends Fragment implements IFragmentView, RequestW
 
     private WebView mWebView;
     private String strUrl;
-    private DeliveryManager eventManager;
+    private DeliveryManager deliveryManager;
 
     public static WebViewFragment newInstance(String url) {
         WebViewFragment fragment = new WebViewFragment();
@@ -181,7 +181,7 @@ public class WebViewFragment extends Fragment implements IFragmentView, RequestW
             return;
         }
         //传递请求，处理请求
-        eventManager.deliveryRequest(request);
+        deliveryManager.deliveryRequest(request);
 
     }
 
@@ -201,7 +201,7 @@ public class WebViewFragment extends Fragment implements IFragmentView, RequestW
         mWebView.getSettings().setLoadWithOverviewMode(true);
         mWebView.getSettings().setDomStorageEnabled(true);
 
-        eventManager = new DeliveryManager(this, mWebView);
+        deliveryManager = new DeliveryManager(this, mWebView);
         //绑定事件处理类
         mWebView.setTag(this);
 
@@ -269,7 +269,7 @@ public class WebViewFragment extends Fragment implements IFragmentView, RequestW
             }
         }
         //转发请求
-        eventManager.deliveryRequest(request);
+        deliveryManager.deliveryRequest(request);
 
     }
 
