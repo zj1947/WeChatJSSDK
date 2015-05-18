@@ -51,7 +51,7 @@ public class GetNetworkTypeServiceImpl extends BaseServiceImpl {
         NetworkInfo info = connectMgr.getActiveNetworkInfo();
 
         if (null==info){
-            return null;
+            return "无网络连接";
         }
 
         if (info.getType()==ConnectivityManager.TYPE_WIFI){
