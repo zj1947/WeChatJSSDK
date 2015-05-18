@@ -1,18 +1,18 @@
 # WeChatJSSDK
-微信JS-SDK接口之Android客户端
+webview与web页面交互，参考微信JS-SDK接口调用方式，支持异步回调。
 ###功能
-主要是实现Android 中的webview与web端的交互，演示了隐藏显示菜单、显示气泡、选图、定位这几个功能。
+实现Android 中的webview与web端的交互，演示了隐藏显示菜单、显示气泡、选图、定位这几个功能。
 ###代码一些说明
 web与webview之间的交互采用这个项目（[Safe Java-JS WebView Bridge](https://github.com/pedant/safe-java-js-webview-bridge)）提供的交互框架，具体原理可查看原文说明。</br>
-在web端的实现，模仿[微信JS-SDK](http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html)的调用方式。
+在web端的实现，参考[微信JS-SDK](http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html)的调用方式。
 ###调用过程
 以显示菜单为例：
-#####在web端
+####在web端
 ```html
   <button onclick="wx.showOptionMenu()">显示右上角菜单</button>
 ```
 其中wx.showOptionMenu()，是jssdk.js中的对象函数。而jssdk.JS文件有点类似于微信的[jweixin-1.0.0.js](http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E6.AD.A5.E9.AA.A4.E4.BA.8C.EF.BC.9A.E5.BC.95.E5.85.A5JS.E6.96.87.E4.BB.B6)文件，提供了统一访问java的接口。
-######关于jsssk.js
+#####关于jsssk.js
 wx.showOptionMenu()
 ```javascript
   //对象a提供了请求参数以及回调方法
@@ -24,14 +24,16 @@ wx.showOptionMenu()
         }
   }
 ```
-关于websiteReq函数。WxJSBridge.websiteReq是通过JAVA端注入的JS函数，通过这个函数访问java端。<br>
-在java端执行完相关的业务处理后，会调用function(result),执行clientReturn(interfaceNm,result,a)
+#####关于websiteReq函数。
 ```js
   //interfaceNm：接口名,parameter：请求参数，JSON格式,a：提供回调函数
     function websiteReq(interfaceNm,parameter,a){
          WxJSBridge.websiteReq(interfaceNm,parameter,function(result){clientReturn(interfaceNm,result,a);})
     }
 ```
+WxJSBridge.websiteReq是通过JAVA端注入的JS函数，通过这个函数访问java端。<br>
+在java端执行完相关的业务处理后，会调用function(result),并执行clientReturn(interfaceNm,result,a)<br>
+#####clientReturn(interfaceNm,result,a)
 在clientReturn函数中，参数result是返回结果，JSON格式，有一个通用属性errMsg，其值格式如下：
 
     调用成功时："xxx:ok" ，其中xxx为调用的接口名
@@ -56,8 +58,9 @@ wx.showOptionMenu()
         };
     }
 ```
-#####在java端
-web与webview之间的交互采用这个项目的交互框架（[Safe Java-JS WebView Bridge](https://github.com/pedant/safe-java-js-webview-bridge)），具体原理可查看原文说明。<\br>
+####在java端
+web与webview之间的交互采用这个项目的交互框架（[Safe Java-JS WebView Bridge](https://github.com/pedant/safe-java-js-webview-bridge)），具体原理可查看原文说明。
+<br>
 定义websiteReq函数，对应js文件中的WxJSBridge.websiteReq
 ```JS
   WxJSBridge.websiteReq(interfaceNm,parameter,function(result){clientReturn(interfaceNm,result,a);})
@@ -128,7 +131,7 @@ public String call(WebView webView, String jsonStr) {
 
         try {
             //获取请求监听接口
-            `reqWatcher = (RequestWatcher)webView.getTag();`
+            reqWatcher = (RequestWatcher)webView.getTag();
         } catch (ClassCastException e) {
             throw new WebException(e.getMessage());
         }
@@ -143,7 +146,12 @@ public String call(WebView webView, String jsonStr) {
     }
 ```
 程序中主要是通过reqWatcher = (RequestWatcher)webView.getTag()获取请求监听接口。而在初始化webview时绑定了RequestWatcher接口。<br>
-在webviewFragment中，包含webview控件，实现RequestWatcher接口和IFragmentView接口。RequestWatcher接口里定义了webReqEvent这个接口函数，当有web端调用JS SDK ，会执行此接口。IFragmentView接口定义了执行view更新的操作，这里是setFragmentMenuVisibility(boolean)方法，显示或隐藏菜单。关于DeliveryManager类，下面会谈到。
+#####关于webviewFragment
+在webviewFragment中，包含webview控件，实现RequestWatcher接口和IFragmentView接口。<br>
+<br>
+RequestWatcher接口里定义了webReqEvent这个接口函数，当有web端调用JS SDK ，会执行此接口。<br>
+IFragmentView接口定义了执行view更新的操作，这里是setFragmentMenuVisibility(boolean)方法，显示或隐藏菜单。<br>
+关于DeliveryManager类，下面会谈到。
 ```JAVA
 public class WebViewFragment extends Fragment implements RequestWatcher,IFragmentView {
 
@@ -182,7 +190,9 @@ public class WebViewFragment extends Fragment implements RequestWatcher,IFragmen
 
 }
 ```
+#####关于DeliveryManager
 在DeliveryManager类中，实现两个接口 IDelivery, IOnServiceFinish。<br>
+<br>
 接口IDelivery把请求事件传递给Service层处理，定义deliveryRequest(Request)方法<br>
 IOnServiceFinish是处理web请求后的回调接口，定义onServiceFinish(Response)方法<br>
 ```JAVA
@@ -244,7 +254,9 @@ public class DeliveryManager implements IDelivery, IOnServiceFinish {
 
 }
 ```
-关于ResponseDistributorImpl，实现IResponseDistributor接口<br>
+#####关于ResponseDistributorImpl
+ResponseDistributorImpl实现IResponseDistributor接口<br>
+<br>
 IResponseDistributor接口分配界面响应，web页面执行完成后，会调用这个接口，定义distributeResponse(Response)方法
 ```JAVA
 public class ResponseDistributorImpl implements IResponseDistributor{
@@ -274,7 +286,7 @@ public class ResponseDistributorImpl implements IResponseDistributor{
 
 }
 ```
-`关于业务逻辑的处理`
+#####关于关于业务逻辑的处理
 IService接口
 ```JAVA
 /**
@@ -329,6 +341,7 @@ public class BaseService extends BaseServiceImpl {
 }
 ```
 关于BaseServiceImpl，采用模板方法设计模式，定义了两个模板方法:<br>
+<br>
 parserReqJSON(JSONObject)：解析请求参数<br>
 setResultJSON():设置返回的JSON值。
 ```JAVA
